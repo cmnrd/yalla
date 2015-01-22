@@ -48,17 +48,23 @@ namespace yalla
  *      write and read access.
  */
 template<typename T,
-         size_t   addr,
+         addr_t   addr,
          T        andMask = static_cast<T>(-1),
          T        orMask  = static_cast<T>(0)>
 class IOMMPtr
 {
 private:
 	using PtrType = volatile T*;
-	static constexpr PtrType ptr = (PtrType) addr;
+	static constexpr PtrType ptr = reinterpret_cast<PtrType>(addr);
 public:
+	/// The type used for read and write operations.
+	using Type = T;
+	/// Read value from addr.
 	static INLINE T    read()     { return *ptr; }
+	/// Write value to addr before write andMask and orMask are applied.
 	static INLINE void write(T v) { *ptr = (v & andMask) | orMask; }
+	/// Write value to addr. Write is performed directly, no masks are applied.
+	static INLINE void write_direct(T v) { *ptr = v; }
 
 	// sanity check
 	static_assert(addr >= AvrConstants::iommBase &&
