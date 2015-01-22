@@ -30,7 +30,7 @@
 
 #pragma once
 
-#include <avrconstants.hpp>
+#include <avr/avrconstants.hpp>
 #include <inline.hpp>
 
 namespace yalla
@@ -44,7 +44,7 @@ namespace yalla
  * @tparam andMask a AND-mask applied to the value on each write
  * @tparam orMask  a OR-mask applied to the value on each write (after andMask)
  *
- * TODO for types larger than 1 byte interrupts need to be disabled on each 
+ * TODO for types larger than 1 byte interrupts need to be disabled on each
  *      write and read access.
  */
 template<typename T,
@@ -61,7 +61,7 @@ public:
 	static INLINE void write(T v) { *ptr = (v & andMask) | orMask; }
 
 	// sanity check
-	static_assert(addr >= AvrConstants::iommBase && 
+	static_assert(addr >= AvrConstants::iommBase &&
 	              addr + sizeof(T) < AvrConstants::iommTop,
 	              "IOMMPtr points to region outside of I/O memory!");
 };

@@ -41,7 +41,7 @@ kind "ConsoleApp"
 --------------------------------------------------------------------------------
 
 -- Includes
-includedirs { "include", "include/yalla"}
+includedirs { "include", "include/yalla", "/usr/include/simavr/avr/"}
 -- Enables some additional warnings.
 buildoptions { "-Wall" }
 -- Enables C++11 support.
@@ -74,7 +74,7 @@ configuration "debug"
 -- Projects
 --------------------------------------------------------------------------------
 project "iomm"
-  files { "test/iomm/iomm.cpp", "test/iomm/iomm_trace.c" }
+  files { "src/test/avr/iomm/iomm.cpp", "src/test/avr/iomm/iomm_trace.c" }
   targetname (project().name .. ".elf")
   postbuildcommands { "avr-objcopy -O ihex bin/" .. project().name .. ".elf bin/"  .. project().name .. ".hex"}
   postbuildcommands { "avr-size bin/" .. project().name .. ".elf"}

@@ -28,7 +28,7 @@
  * SOFTWARE.
  */
 
-#include <iomm.hpp>
+#include <avr/iomm.hpp>
 using namespace yalla;
 
 using PORTD = IOMMPtr<uint8_t, 0x32>;
