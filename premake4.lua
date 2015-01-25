@@ -81,6 +81,12 @@ project "iomm"
   postbuildcommands { "avr-objcopy -O ihex bin/" .. project().name .. ".elf bin/"  .. project().name .. ".hex"}
   postbuildcommands { "avr-size bin/" .. project().name .. ".elf"}
 
+project "register"
+  files { "src/test/avr/register/register.cpp", "src/test/avr/register/register_trace.c" }
+  targetname (project().name .. ".elf")
+  postbuildcommands { "avr-objcopy -O ihex bin/" .. project().name .. ".elf bin/"  .. project().name .. ".hex"}
+  postbuildcommands { "avr-size bin/" .. project().name .. ".elf"}
+
 -- Add new projects here
 
 -- Template:
