@@ -63,7 +63,7 @@ public:
 
 	// sanity check
 	static_assert(addr >= AvrConstants::iommBase &&
-	              addr + sizeof(T) < AvrConstants::iommTop,
+	              addr + (sizeof(T) - 1) <= AvrConstants::iommTop,
 	              "IOMMPtr points to region outside of I/O memory!");
 };
 
