@@ -28,64 +28,8 @@
  * SOFTWARE.
  */
 
-#include <avr/bit.hpp>
-#include <avr/register.hpp>
+#include <avr/io.hpp>
 using namespace yalla;
-
-using PORTD = Register<0x32,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit>;
-
-using PORTD7 = PORTD::Bit7;
-using PORTD6 = PORTD::Bit6;
-using PORTD5 = PORTD::Bit5;
-using PORTD4 = PORTD::Bit4;
-using PORTD3 = PORTD::Bit3;
-using PORTD2 = PORTD::Bit2;
-using PORTD1 = PORTD::Bit1;
-using PORTD0 = PORTD::Bit0;
-
-using PORTC = Register<0x35,
-                       ReservedBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit,
-                       ReadWriteBit>;
-
-using PORTC6 = PORTC::Bit6;
-using PORTC5 = PORTC::Bit5;
-using PORTC4 = PORTC::Bit4;
-using PORTC3 = PORTC::Bit3;
-using PORTC2 = PORTC::Bit2;
-using PORTC1 = PORTC::Bit1;
-using PORTC0 = PORTC::Bit0;
-
-using TWCR = Register<0x56,
-                      StatusBitClearBy1, // TWINT
-                      ReadWriteBit,      // TWEA
-                      ReadWriteBit,      // TWSTA
-                      ReadWriteBit,      // TWSTO
-                      ReadOnlyBit,       // TWWC
-                      ReadWriteBit,      // TWEN
-                      ReservedBit,       // -
-                      ReadWriteBit>;     // TWIE
-
-using TWINT  = TWCR::Bit7;
-using TWEA   = TWCR::Bit6;
-using TWSTA  = TWCR::Bit5;
-using TWSTO  = TWCR::Bit4;
-using TWWC   = TWCR::Bit3;
-using TWEN   = TWCR::Bit2;
-using TWIE   = TWCR::Bit0;
 
 int main()
 {

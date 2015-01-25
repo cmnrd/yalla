@@ -41,7 +41,7 @@ kind "ConsoleApp"
 --------------------------------------------------------------------------------
 
 -- Includes
-includedirs { "include", "include/yalla", "/usr/include/simavr/avr/"}
+includedirs { "include", "include/yalla", "include/yalla/device/atmega8", "/usr/include/simavr/avr/"}
 -- Enables some additional warnings.
 buildoptions { "-Wall" }
 -- Enables C++11 support.
