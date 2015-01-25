@@ -41,16 +41,11 @@ namespace yalla
  *
  * @tparam T       type that is used for read and write access
  * @tparam addr    the address this pointer points to (absolute memory address)
- * @tparam andMask a AND-mask applied to the value on each write
- * @tparam orMask  a OR-mask applied to the value on each write (after andMask)
  *
  * TODO for types larger than 1 byte interrupts need to be disabled on each
  *      write and read access.
  */
-template<typename T,
-         addr_t   addr,
-         T        andMask = static_cast<T>(-1),
-         T        orMask  = static_cast<T>(0)>
+template<typename T, addr_t addr>
 class IOMMPtr
 {
 private:
@@ -62,9 +57,9 @@ public:
 	/// Read value from addr.
 	static INLINE T    read()     { return *ptr; }
 	/// Write value to addr before write andMask and orMask are applied.
-	static INLINE void write(T v) { *ptr = (v & andMask) | orMask; }
-	/// Write value to addr. Write is performed directly, no masks are applied.
-	static INLINE void write_direct(T v) { *ptr = v; }
+	static INLINE void write(T v) { *ptr = v; }
+	/// Get a reference of the object pointed to
+	static INLINE volatile T&   deref()    { return *ptr; }
 
 	// sanity check
 	static_assert(addr >= AvrConstants::iommBase &&
