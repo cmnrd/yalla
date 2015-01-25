@@ -46,6 +46,8 @@ includedirs { "include", "include/yalla", "/usr/include/simavr/avr/"}
 buildoptions { "-Wall" }
 -- Enables C++11 support.
 buildoptions { "-std=c++11 " }
+-- set optimization.
+buildoptions { "-Os " }
 -- set AVR specific options
 buildoptions {"-fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields"}
 
