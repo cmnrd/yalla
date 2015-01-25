@@ -142,6 +142,16 @@ public:
 	{
 		Ptr::write(v);
 	}
+
+	/**
+	 * Read a 8-bit integer from the register.
+	 *
+	 * @return value read from register
+	 */
+	static uint8_t INLINE read()
+	{
+		return Ptr::read();
+	}
 };
 
 } // namespace lunacy
