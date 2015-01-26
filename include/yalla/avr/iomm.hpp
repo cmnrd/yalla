@@ -39,11 +39,11 @@ namespace yalla
 /**
  * A static pointer that provides read and write access to the I/O Memory Space.
  *
+ * When reading or writing types with size greater than 1 byte interrupts have
+ * to be disabled to guarantee atomic access.
+ *
  * @tparam T       type that is used for read and write access
  * @tparam addr    the address this pointer points to (absolute memory address)
- *
- * TODO for types larger than 1 byte interrupts need to be disabled on each
- *      write and read access.
  */
 template<typename T, addr_t addr>
 class IOMMPtr

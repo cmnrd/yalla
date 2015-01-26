@@ -149,6 +149,12 @@ using PORTC2 = PORTC::Bit2;
 using PORTC1 = PORTC::Bit1;
 using PORTC0 = PORTC::Bit0;
 
+// ... TODO
 
+using ADCH = DataRegister<0x25>;
+using ADCL = DataRegister<0x24>;
+using ADC  = DataRegister16<0x24>;
+
+// ... TODO
 
 } // namespace lunacy

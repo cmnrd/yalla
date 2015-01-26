@@ -33,6 +33,8 @@
 
 #include <avr/iomm.hpp>
 #include <inline.hpp>
+#include <inttypes.hpp>
+#include <util/atomic.hpp>
 
 namespace yalla
 {
@@ -46,20 +48,94 @@ namespace yalla
  * @tparam addr Address of the register.
  */
 template<addr_t addr>
-struct DataRegister : public IOMMPtr<uint8_t, addr>
-{};
+class DataRegister : public IOMMPtr<uint8_t, addr>
+{
+private:
+	/// Alias for the IOMMPtr
+	using Ptr = IOMMPtr<uint8_t, addr>;
+
+public:
+	/**
+	 * Write a 8-bit integer to the register.
+	 *
+	 * @param v value to be written
+	 */
+	static INLINE void    write(uint8_t v) { Ptr::write(v); }
+
+	/**
+	 * Read a 8-bit integer from the register.
+	 *
+	 * @return value read from register
+	 */
+	static INLINE uint8_t read()           { return Ptr::read(); }
+};
 
 /**
  * Simple wrapper for a IOMMPtr. Represents a 16-bit io data register.
  *
- * In contrast to a Register a DataRegister is represented only by a 16-bit value
+ * In contrast to a Register a DataRegister16 is represented only by a 16-bit value
  * and is not a set of individual bits.
  *
  * @tparam addr Address of the register.
  */
 template<addr_t addr>
-struct DataRegister16 : public IOMMPtr<uint16_t, addr>
-{};
+class DataRegister16
+{
+private:
+	/// Alias for the IOMMPtr
+	using Ptr = IOMMPtr<uint16_t, addr>;
+
+public:
+	/**
+	 * Write a 16-bit integer to the register.
+	 *
+	 * This method always disables interrupts and restores status of the interrupt
+	 * flag after the write operation is performed. If interrupts are always
+	 * disabeled when this method is called, write_unsafe(uint8_t) can be used for
+	 * more efficient write access.
+	 *
+	 * @param v value to be written
+	 */
+	static INLINE void write(uint8_t v)
+	{
+		auto guard = AtomicGuard<AtomicPolicy::RestoreState>();
+		Ptr::write(v);
+	}
+
+	/**
+	 * Read a 16-bit integer from the register.
+	 *
+	 * This method always disables interrupts and restores status of the interrupt
+	 * flag after the read operation is performed. If interrupts are always
+	 * disabeled when this method is called, read_unsafe() can be used for
+	 * more efficient read access.
+	 *
+	 * @return value read from register
+	 */
+	static INLINE uint8_t read()
+	{
+		auto guard = AtomicGuard<AtomicPolicy::RestoreState>();
+		return Ptr::read();
+	}
+
+	/**
+	 * Directly write a 16-bit integer to the register.
+	 *
+	 * Interrupts must be disabled when this method is called!
+	 *
+	 * @param v value to be written
+	 */
+	static INLINE void    write_unsafe(uint8_t v) { Ptr::write(v); }
+
+	/**
+	 * Directly read a 16-bit integer from the register.
+	 *
+	 * Interrupts must be disabled when this method is called!
+	 *
+	 * @return value read from register
+	 */
+	static INLINE uint8_t read_unsafe() { return Ptr::read(); }
+};
 
 /**
  * Represents a 8-bit io register that is assembled from 8 individual bits.
