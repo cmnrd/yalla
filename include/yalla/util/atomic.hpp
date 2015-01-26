@@ -32,7 +32,7 @@
 
 #include <inline.hpp>
 #include <avr/interrupts.hpp>
-#include <avr/io.hpp>
+#include <avr/iomm.hpp>
 
 namespace yalla
 {
@@ -75,7 +75,10 @@ template<>
 class AtomicGuard<AtomicPolicy::RestoreState>
 {
 private:
-	uint8_t sreg; /// safe the SREG state
+	/// safe the SREG state
+	uint8_t sreg;
+	/// Alias for the pointer pointing to SREG
+	using SREG = IOMMPtr<uint8_t, 0x3f>;
 public:
 	/// Constructor, disables interrupts on object creation.
 	INLINE AtomicGuard()
@@ -119,7 +122,10 @@ template<>
 class NonAtomicGuard<AtomicPolicy::RestoreState>
 {
 private:
+	/// safe the SREG state
 	uint8_t sreg;
+	/// Alias for the pointer pointing to SREG
+	using SREG = IOMMPtr<uint8_t, 0x3f>;
 public:
 	/// Constructor, enables interrupts on object creation.
 	INLINE NonAtomicGuard()

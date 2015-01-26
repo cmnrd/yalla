@@ -36,12 +36,15 @@
 namespace yalla
 {
 
-struct Interrupts
+class Interrupts
 {
+private:
+	using SREG = IOMMPtr<uint8_t, 0x3f>;
+public:
 	static void INLINE enableGlobally()      { asm volatile ("sei"); }
 	static void INLINE disableGlobally()     { asm volatile ("cli"); }
-	static bool INLINE areGloballyEnabled()  { return I::isSet(); }
-	static bool INLINE areGloballyDisabled() { return I::isCleared(); }
+	static bool INLINE areGloballyEnabled()  { return SREG::read() & (1 << 7); }
+	static bool INLINE areGloballyDisabled() { return !(SREG::read() & (1 << 7)); }
 };
 
 } // namespace lunacy
