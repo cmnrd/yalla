@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+using ${1:REG} = Register<0x${2:ADDR},
+                     ${3/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${3:BIT7}
+                     ${4/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${4:BIT6}
+                     ${5/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${5:BIT5}
+                     ${6/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${6:BIT4}
+                     ${7/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${7:BIT3}
+                     ${8/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${8:BIT2}
+                     ${9/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${9:BIT1}
+                     ${10/^([-]$)|(?:^(.*$))/(?1ReservedBit, :ReadWriteBit,)/g} // ${10:BIT0}
+
+${3/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit7;
+${4/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit6;
+${5/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit5;
+${6/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit4;
+${7/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit3;
+${8/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit2;
+${9/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit1;
+${10/^([-]$)|(?:^(.*$))/(?1\/\/ RESERVED:using $&)/g} = ${1}::Bit0;
+]]></content>
+	<tabTrigger>register</tabTrigger>
+	<scope>source.c++</scope>
+</snippet>
