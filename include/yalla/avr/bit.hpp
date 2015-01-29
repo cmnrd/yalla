@@ -30,7 +30,7 @@
 
 #pragma once
 
-#include<inline.hpp>
+#include<attributes.hpp>
 #include<inttypes.hpp>
 
 namespace yalla

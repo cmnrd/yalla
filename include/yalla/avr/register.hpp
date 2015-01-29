@@ -31,8 +31,8 @@
 
 #pragma once
 
+#include <attributes.hpp>
 #include <avr/iomm.hpp>
-#include <inline.hpp>
 #include <inttypes.hpp>
 #include <util/atomic.hpp>
 

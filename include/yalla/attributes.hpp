@@ -1,5 +1,5 @@
 /**
- * @brief  Definition of INLINE macro
+ * @brief  Definition of macros as short-cuts for avr-gcc attributes
  * @author Christian Menard
  * @date   2015-01-21
  */
@@ -32,4 +32,8 @@
 
 #ifndef INLINE
 # 	define INLINE __attribute__((always_inline))
+#endif
+
+#ifndef PACKED
+# 	define PACKED __attribute__((packed))
 #endif

@@ -30,8 +30,8 @@
 
 #pragma once
 
+#include <attributes.hpp>
 #include <avr/avrconstants.hpp>
-#include <inline.hpp>
 
 namespace yalla
 {

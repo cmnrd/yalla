@@ -30,7 +30,7 @@
 
 #pragma once
 
-#include <inline.hpp>
+#include <attributes.hpp>
 #include <avr/interrupts.hpp>
 #include <avr/iomm.hpp>
 
