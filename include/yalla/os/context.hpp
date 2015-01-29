@@ -31,6 +31,7 @@
 #pragma once
 
 #include <attributes.hpp>
+#include <inttypes.hpp>
 
 namespace yalla
 {
