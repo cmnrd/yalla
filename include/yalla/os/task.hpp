@@ -149,7 +149,7 @@ public:
 	{
 		SP::write(sp);
 
-		aasm volatile ( \
+		asm volatile ( \
 			"push r0\n\t" \
 			"in r0, __SREG__\n\t" \
 			"push r0\n\t" \

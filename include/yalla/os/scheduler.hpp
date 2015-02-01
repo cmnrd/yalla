@@ -40,10 +40,16 @@ class Scheduler
 private:
 	/// the task that is curreently executing
 	Task& currentTask;
+	
+	static void _switchToTask(Task& task)
+	{
+		currentTask = task;
+	}
 public:
-	switchToTask(Task& task)
+	static void switchToTask(Task& task)  __attribute__ ((naked))
 	{
 		currentTask::storeContext();
+		currentTask::loadContext();
 	}
 };
 
