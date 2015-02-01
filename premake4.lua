@@ -45,7 +45,7 @@ includedirs { "include", "include/yalla", "include/yalla/device/atmega8", "/usr/
 -- Enables some additional warnings.
 buildoptions { "-Wall" }
 -- Enables C++11 support.
-buildoptions { "-std=c++11 " }
+buildoptions { "-std=c++14" }
 -- set optimization.
 buildoptions { "-Os " }
 -- set AVR specific options
