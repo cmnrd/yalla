@@ -54,6 +54,9 @@ buildoptions {"-fshort-enums -funsigned-char -funsigned-bitfields"}
 buildoptions {"`pkg-config --cflags simavr`" }
 
 
+buildoptions {"`pkg-config --cflags simavr`" }
+
+
 if _OPTIONS["mmcu"] then
   buildoptions { "-mmcu=" .. _OPTIONS["mmcu"] }
 end
