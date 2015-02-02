@@ -28,7 +28,7 @@
  * SOFTWARE.
  */
 
-#include <avr_mcu_section.h>
+#include <avr/avr_mcu_section.h>
 
 AVR_MCU(8000000, "atmega8");
 
