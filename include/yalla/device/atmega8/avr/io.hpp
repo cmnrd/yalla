@@ -98,10 +98,10 @@ using GICR = Register<0x5b,
                      ReadWriteBit,  // IVSEL
                      ReadWriteBit>; // IVCE
 
-using INT1  = GIRC::Bit7;
-using INT0  = GIRC::Bit6;
-using IVSEL = GIRC::Bit1;
-using IVCE  = GIRC::Bit0;
+using INT1  = GICR::Bit7;
+using INT0  = GICR::Bit6;
+using IVSEL = GICR::Bit1;
+using IVCE  = GICR::Bit0;
 
 using GIFR = Register<0x5A,
                      StatusBitClearBy1,  // INTF1
@@ -196,14 +196,14 @@ using MCUCR = Register<0x55,
                        ReadWriteBit, // ISC11
                        ReadWriteBit, // ISC10
                        ReadWriteBit, // ISC01
-                       ReadWriteBit, // ISC00
+                       ReadWriteBit>; // ISC00
 
 using SE = MCUCR::Bit7;
 using SM2 = MCUCR::Bit6;
 using SM1 = MCUCR::Bit5;
 using SM0 = MCUCR::Bit4;
-using TWS3 = MCUCR::Bit3;
-using TWS2 = MCUCR::Bit2;
+using ISC11 = MCUCR::Bit3;
+using ISC10 = MCUCR::Bit2;
 using ISC01 = MCUCR::Bit1;
 using ISC00 = MCUCR::Bit0;
 
@@ -215,7 +215,7 @@ using MCUCSR = Register<0x54,
                         ReadWriteBit, // WDRF
                         StatusBitClearBy0, // BORF
                         StatusBitClearBy0, // EXTRF
-                        StatusBitClearBy0, // PORF
+                        StatusBitClearBy0>; // PORF
 
 // RESERVED = MCUCSR::Bit7;
 // RESERVED = MCUCSR::Bit6;
@@ -234,7 +234,7 @@ using TCCR0 = Register<0x53,
                      ReservedBit,  // -
                      ReadWriteBit, // CS02
                      ReadWriteBit, // CS01
-                     ReadWriteBit, // CS00
+                     ReadWriteBit>; // CS00
 
 // RESERVED = TCCR0::Bit7;
 // RESERVED = TCCR0::Bit6;
@@ -257,7 +257,7 @@ using SFIOR = Register<0x50,
                      StatusBitClearBy1, // ACME
                      StatusBitClearBy1, // PUD
                      ReadWriteBit, // PSR2
-                     StatusBitClearBy1, // PSR10 TODO not really a status bit
+                     StatusBitClearBy1>; // PSR10 TODO not really a status bit
 
 // RESERVED = SFIOR::Bit7;
 // RESERVED = SFIOR::Bit6;
@@ -276,7 +276,7 @@ using TCCR1A = Register<0x4F,
                      ReadWriteBit, // FOC1A
                      ReadWriteBit, // FOC1B
                      ReadWriteBit, // WGM11
-                     ReadWriteBit, // WGM10
+                     ReadWriteBit>; // WGM10
 
 using COM1A1 = TCCR1A::Bit7;
 using COM1A0 = TCCR1A::Bit6;
@@ -295,7 +295,7 @@ using TCCR1B = Register<0x4E,
                      ReadWriteBit, // WGM12
                      ReadWriteBit, // CS12
                      ReadWriteBit, // CS11
-                     ReadWriteBit, // CS10
+                     ReadWriteBit>; // CS10
 
 using ICNC = TCCR1B::Bit7;
 using ICES1 = TCCR1B::Bit6;
@@ -330,7 +330,7 @@ using TCCR2 = Register<0x45,
                      ReadWriteBit, // WGM21
                      ReadWriteBit, // CS22
                      ReadWriteBit, // CS21
-                     ReadWriteBit, // CS20
+                     ReadWriteBit>; // CS20
 
 using FOC2 = TCCR2::Bit7;
 using WGM20 = TCCR2::Bit6;
@@ -353,7 +353,7 @@ using ASSR = Register<0x42,
                      ReadWriteBit, // AS2
                      ReadOnlyBit, // TCN2UB
                      ReadOnlyBit, // OCR2UB
-                     ReadOnlyBit, // TCR2UB
+                     ReadOnlyBit>; // TCR2UB
 
 // RESERVED = ASSR::Bit7;
 // RESERVED = ASSR::Bit6;
@@ -372,7 +372,7 @@ using WDTCR = Register<0x41,
                      ReadWriteBit, // WDE
                      ReadWriteBit, // WDP2
                      ReadWriteBit, // WDP1
-                     ReadWriteBit, // WDP0
+                     ReadWriteBit>; // WDP0
 
 // RESERVED = WDTCR::Bit7;
 // RESERVED = WDTCR::Bit6;
@@ -393,7 +393,7 @@ using UCSRC = Register<0x40,
                      ReadWriteBit, // USBS
                      ReadWriteBit, // UCSZ1
                      ReadWriteBit, // UCSZ0
-                     ReadWriteBit, // UCPOL
+                     ReadWriteBit>; // UCPOL
 
 using URSEL = UCSRC::Bit7;
 using UMSEL = UCSRC::Bit6;
@@ -412,7 +412,7 @@ using EEARH = Register<0x3F,
                      ReservedBit,  // -
                      ReservedBit,  // -
                      ReservedBit,  // -
-                     ReadWriteBit, // EEAR8
+                     ReadWriteBit>; // EEAR8
 
 // RESERVED = EEARH::Bit7;
 // RESERVED = EEARH::Bit6;
@@ -431,7 +431,7 @@ using EEARL = Register<0x3E,
                      ReadWriteBit, // EEAR3
                      ReadWriteBit, // EEAR2
                      ReadWriteBit, // EEAR1
-                     ReadWriteBit, // EEAR0
+                     ReadWriteBit>; // EEAR0
 
 using EEAR7 = EEARL::Bit7;
 using EEAR6 = EEARL::Bit6;
@@ -452,7 +452,7 @@ using EECR = Register<0x3C,
                      ReadWriteBit, // EERIE
                      ReadWriteBit, // EEMWE
                      ReadWriteBit, // EEWE
-                     ReadWriteBit, // EERE
+                     ReadWriteBit>; // EERE
 
 // RESERVED = EECR::Bit7;
 // RESERVED = EECR::Bit6;
@@ -492,14 +492,14 @@ using DDRB = Register<0x37,
                        ReadWriteBit,  // DDB1
                        ReadWriteBit>; // DDB0
 
-using DDB7 = DDB::Bit7;
-using DDB6 = DDB::Bit6;
-using DDB5 = DDB::Bit5;
-using DDB4 = DDB::Bit4;
-using DDB3 = DDB::Bit3;
-using DDB2 = DDB::Bit2;
-using DDB1 = DDB::Bit1;
-using DDB0 = DDB::Bit0;
+using DDB7 = DDRB::Bit7;
+using DDB6 = DDRB::Bit6;
+using DDB5 = DDRB::Bit5;
+using DDB4 = DDRB::Bit4;
+using DDB3 = DDRB::Bit3;
+using DDB2 = DDRB::Bit2;
+using DDB1 = DDRB::Bit1;
+using DDB0 = DDRB::Bit0;
 
 using PINB = Register<0x36,
                        ReadWriteBit,  // PINB7
@@ -528,7 +528,7 @@ using PORTC = Register<0x35,
                      ReadWriteBit, // PORTC3
                      ReadWriteBit, // PORTC2
                      ReadWriteBit, // PORTC1
-                     ReadWriteBit, // PORTC0
+                     ReadWriteBit>; // PORTC0
 
 // RESERVED = PORTC::Bit7;
 using PORTC6 = PORTC::Bit6;
@@ -547,16 +547,16 @@ using DDRC = Register<0x34,
                      ReadWriteBit, // DDC3
                      ReadWriteBit, // DDC2
                      ReadWriteBit, // DDC1
-                     ReadWriteBit, // DDC0
+                     ReadWriteBit>; // DDC0
 
 // RESERVED = DDC::Bit7;
-using DDC6 = DDC::Bit6;
-using DDC5 = DDC::Bit5;
-using DDC4 = DDC::Bit4;
-using DDC3 = DDC::Bit3;
-using DDC2 = DDC::Bit2;
-using DDC1 = DDC::Bit1;
-using DDC0 = DDC::Bit0;
+using DDC6 = DDRC::Bit6;
+using DDC5 = DDRC::Bit5;
+using DDC4 = DDRC::Bit4;
+using DDC3 = DDRC::Bit3;
+using DDC2 = DDRC::Bit2;
+using DDC1 = DDRC::Bit1;
+using DDC0 = DDRC::Bit0;
 
 using PINC = Register<0x33,
                      ReservedBit,  // -
@@ -566,7 +566,7 @@ using PINC = Register<0x33,
                      ReadWriteBit, // PINC3
                      ReadWriteBit, // PINC2
                      ReadWriteBit, // PINC1
-                     ReadWriteBit, // PINC0
+                     ReadWriteBit>; // PINC0
 
 // RESERVED = PINC::Bit7;
 using PINC6 = PINC::Bit6;
@@ -606,14 +606,14 @@ using DDRD = Register<0x31,
                        ReadWriteBit,  // DDD1
                        ReadWriteBit>; // DDD0
 
-using DDD7 = DDD::Bit7;
-using DDD6 = DDD::Bit6;
-using DDD5 = DDD::Bit5;
-using DDD4 = DDD::Bit4;
-using DDD3 = DDD::Bit3;
-using DDD2 = DDD::Bit2;
-using DDD1 = DDD::Bit1;
-using DDD0 = DDD::Bit0;
+using DDD7 = DDRD::Bit7;
+using DDD6 = DDRD::Bit6;
+using DDD5 = DDRD::Bit5;
+using DDD4 = DDRD::Bit4;
+using DDD3 = DDRD::Bit3;
+using DDD2 = DDRD::Bit2;
+using DDD1 = DDRD::Bit1;
+using DDD0 = DDRD::Bit0;
 
 using PIND = Register<0x30,
                        ReadWriteBit,  // PIND7
@@ -644,7 +644,7 @@ using SPSR = Register<0x2E,
                      ReservedBit,  // -
                      ReservedBit,  // -
                      ReservedBit,  // -
-                     ReadWriteBit, // SPI2X
+                     ReadWriteBit>; // SPI2X
 
 using SPIF = SPSR::Bit7;
 using WCOL = SPSR::Bit6;
@@ -663,7 +663,7 @@ using SPCR = Register<0x2D,
                      ReadWriteBit, // CPOL
                      ReadWriteBit, // CPHA
                      ReadWriteBit, // SPR1
-                     ReadWriteBit, // SPR0
+                     ReadWriteBit>; // SPR0
 
 using SPIE = SPCR::Bit7;
 using SPE = SPCR::Bit6;
@@ -684,7 +684,7 @@ using UCSRA = Register<0x2B,
                      ReadOnlyBit, // DOR
                      ReadOnlyBit, // PE
                      ReadWriteBit, // U2X
-                     ReadWriteBit, // MPCM
+                     ReadWriteBit>; // MPCM
 
 using RXC = UCSRA::Bit7;
 using TXC = UCSRA::Bit6;
@@ -703,7 +703,7 @@ using UCSRB = Register<0x2a,
                      ReadWriteBit, // TXEN
                      ReadWriteBit, // UCSZ2
                      ReadOnlyBit, // RXB8
-                     ReadWriteBit, // TXB8
+                     ReadWriteBit>; // TXB8
 
 using RXCIE = UCSRB::Bit7;
 using TXCIE = UCSRB::Bit6;
@@ -724,7 +724,7 @@ using ACSR = Register<0x28,
                      ReadWriteBit, // ACIE
                      ReadWriteBit, // ACIC
                      ReadWriteBit, // ACIS1
-                     ReadWriteBit, // ACIS0
+                     ReadWriteBit>; // ACIS0
 
 using ACD = ACSR::Bit7;
 using ACBG = ACSR::Bit6;
@@ -743,7 +743,7 @@ using ADMUX = Register<0x27,
                      ReadWriteBit, // MUX3
                      ReadWriteBit, // MUX2
                      ReadWriteBit, // MUX1
-                     ReadWriteBit, // MUX0
+                     ReadWriteBit>; // MUX0
 
 using REFS1 = ADMUX::Bit7;
 using REFS0 = ADMUX::Bit6;
@@ -762,7 +762,7 @@ using ADCSRA = Register<0x26,
                      ReadWriteBit, // ADIE
                      ReadWriteBit, // ADPS2
                      ReadWriteBit, // ADPS1
-                     ReadWriteBit, // ADPS0
+                     ReadWriteBit>; // ADPS0
 
 using ADEN = ADCSRA::Bit7;
 using ADSC = ADCSRA::Bit6;
@@ -787,7 +787,7 @@ using TWAR = Register<0x22,
                      ReadWriteBit, // TWA2
                      ReadWriteBit, // TWA1
                      ReadWriteBit, // TWA0
-                     ReadWriteBit, // TWGCE
+                     ReadWriteBit>; // TWGCE
 
 using TWA6 = TWAR::Bit7;
 using TWA5 = TWAR::Bit6;
@@ -806,7 +806,7 @@ using TWSR = Register<0x21,
                      ReadWriteBit, // TWS3
                      ReservedBit,  // -
                      ReadWriteBit, // TWS1
-                     ReadWriteBit, // TWS0
+                     ReadWriteBit>; // TWS0
 
 using TWS7 = TWSR::Bit7;
 using TWS6 = TWSR::Bit6;
@@ -817,6 +817,6 @@ using TWS3 = TWSR::Bit3;
 using TWS1 = TWSR::Bit1;
 using TWS0 = TWSR::Bit0;
 
-using twbr = DataRegister<0x20>;
+using TWBR = DataRegister<0x20>;
 
 }
