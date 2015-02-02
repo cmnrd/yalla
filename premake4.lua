@@ -49,7 +49,7 @@ buildoptions { "-std=c++14" }
 -- set optimization.
 buildoptions { "-Os " }
 -- set AVR specific options
-buildoptions {"-fpack-struct -fshort-enums -funsigned-char -funsigned-bitfields"}
+buildoptions {"-fshort-enums -funsigned-char -funsigned-bitfields"}
 
 if _OPTIONS["mmcu"] then
   buildoptions { "-mmcu=" .. _OPTIONS["mmcu"] }
