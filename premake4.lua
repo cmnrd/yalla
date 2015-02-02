@@ -41,7 +41,7 @@ kind "ConsoleApp"
 --------------------------------------------------------------------------------
 
 -- Includes
-includedirs { "include", "include/yalla", "include/yalla/device/atmega8", "/usr/include/simavr/avr/"}
+includedirs { "include", "include/yalla", "include/yalla/device/atmega8"}
 -- Enables some additional warnings.
 buildoptions { "-Wall" }
 -- Enables C++11 support.
@@ -50,6 +50,9 @@ buildoptions { "-std=c++14" }
 buildoptions { "-Os " }
 -- set AVR specific options
 buildoptions {"-fshort-enums -funsigned-char -funsigned-bitfields"}
+
+buildoptions {"`pkg-config --cflags simavr`" }
+
 
 if _OPTIONS["mmcu"] then
   buildoptions { "-mmcu=" .. _OPTIONS["mmcu"] }
