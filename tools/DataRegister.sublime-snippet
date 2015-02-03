@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+using ${1:REG} = DataRegister<0x${2:ADDR}>;
+]]></content>
+	<tabTrigger>dreg</tabTrigger>
+	<scope>source.c++</scope>
+</snippet>

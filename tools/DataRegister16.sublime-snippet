@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+using ${1:REG}H = DataRegister<0x${2:ADDRH}>;
+using ${1:REG}L = DataRegister<0x${3:ADDRL}>;
+using ${1:REG}  = DataRegister16<0x${3:ADDRL}>;
+]]></content>
+	<tabTrigger>dreg16</tabTrigger>
+	<scope>source.c++</scope>
+</snippet>
