@@ -1,0 +1,23 @@
+import glob
+
+#get environment and project
+Import('env')
+localenv = env.Clone()
+
+
+buildroot = '#/build/' + env.jDev.device
+builddir = buildroot + '/yalla'
+targetpath = builddir + '/libyalla.a'
+
+#append additional compile flags
+localenv.Append(CCFLAGS='')
+localenv.Append(CXXFLAGS='')
+
+#specify the build directory
+localenv.VariantDir(builddir, ".", duplicate=0)
+
+#add src files
+srclst = map(lambda x: builddir + '/' + x, glob.glob('*.cpp'))
+
+yalla = localenv.StaticLibrary(targetpath, source=srclst)
+env.Alias('all', yalla)  #note: not localenv

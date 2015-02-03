@@ -1,0 +1,15 @@
+#get environment and project
+Import('env', 'project')
+localenv = env.Clone()
+
+#list of all devfices this subproject supports
+supported_devices = env.all_supported_devices
+
+#appand additional compile flags
+env.jDev.ccflags   += ' '
+env.jDev.cxxflags  += ' '
+env.jDev.linkflags += ' '
+
+if(env.jDev.device in supported_devices):
+  #call back to jDev to build the project for us
+  env.jDev.Buildit(localenv, project)
