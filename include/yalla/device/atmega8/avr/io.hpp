@@ -1,5 +1,6 @@
 /**
  * @brief  Atmega8 IO register and bit definitions
+ * @author Hannes Ellinger
  * @author Christian Menard
  * @date   2015-01-25
  */
@@ -7,6 +8,7 @@
 /*
  * The MIT License (MIT)
  *
+ * Copyright (c) 2015 Hannes Ellinger
  * Copyright (c) 2015 Christian Menard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
