@@ -257,7 +257,7 @@ using SFIOR = Register<0x50,
                      StatusBitClearBy1, // ACME
                      StatusBitClearBy1, // PUD
                      ReadWriteBit, // PSR2
-                     StatusBitClearBy1>; // PSR10 TODO not really a status bit
+                     ReadWriteBit>; // PSR10
 
 // RESERVED = SFIOR::Bit7;
 // RESERVED = SFIOR::Bit6;
@@ -323,7 +323,7 @@ using ICR1L = DataRegister<0x46>;
 using ICR1  = DataRegister16<0x46>;
 
 using TCCR2 = Register<0x45,
-                     StatusBitClearBy1, // FOC2 TODO: not a status bit
+                     ReadWriteBit, // FOC2
                      ReadWriteBit, // WGM20
                      ReadWriteBit, // COM21
                      ReadWriteBit, // COM20
