@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d1/d31/structyalla_1_1_reserved_bit.html" title="yalla::ReservedBit\l\&lt; Reg, idx, regAndMask \&gt;" alt="" coords="5,37,181,76"/>
+<area shape="rect" id="node2" href="$de/d19/structyalla_1_1_read_only_bit.html" title="yalla::ReadOnlyBit\l\&lt; Reg, idx, regAndMask \&gt;" alt="" coords="229,37,404,76"/>
+<area shape="rect" id="node3" href="$d1/d96/structyalla_1_1_status_bit_clear_by0.html" title="yalla::StatusBitClearBy0\l\&lt; Reg, idx, regAndMask \&gt;" alt="" coords="452,5,628,44"/>
+<area shape="rect" id="node5" href="$d5/dfc/structyalla_1_1_status_bit_clear_by1.html" title="yalla::StatusBitClearBy1\l\&lt; Reg, idx, regAndMask \&gt;" alt="" coords="452,68,628,107"/>
+<area shape="rect" id="node4" href="$d6/d87/structyalla_1_1_read_write_bit.html" title="yalla::ReadWriteBit\l\&lt; Reg, idx, regAndMask \&gt;" alt="" coords="676,5,851,44"/>
+</map>

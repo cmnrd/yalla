@@ -1,0 +1,4 @@
+<map id="yalla::Register::write" name="yalla::Register::write">
+<area shape="rect" id="node2" href="$da/d23/classyalla_1_1_atomic_guard_3_01_atomic_policy_1_1_restore_state_01_4.html#a4a7a5469754de8d1ca4a6130c00264f4" title="Destructor, restores old state on object destruction. " alt="" coords="195,5,388,57"/>
+<area shape="rect" id="node3" href="$d3/d03/classyalla_1_1_non_atomic_guard_3_01_atomic_policy_1_1_restore_state_01_4.html#a7672ebdaf3303249d75afdbde02bacca" title="Destructor, restores old state on object destruction. " alt="" coords="195,81,388,133"/>
+</map>
