@@ -385,17 +385,52 @@ using WDP2 = WDTCR::Bit2;
 using WDP1 = WDTCR::Bit1;
 using WDP0 = WDTCR::Bit0;
 
-// TODO add regester UBRRH at 0x40
+using UBRRH = Register<0x40,
+                     ReservedBit,  // -
+                     ReservedBit,  // -
+                     ReservedBit,  // -
+                     ReservedBit,  // -
+                     ReadWriteBit, //
+                     ReadWriteBit, //
+                     ReadWriteBit, //
+                     ReadWriteBit>; //
 
-using UCSRC = Register<0x40,
-                     ReadWriteBit, // URSEL
-                     ReadWriteBit, // UMSEL
-                     ReadWriteBit, // UPM1
-                     ReadWriteBit, // UPM0
-                     ReadWriteBit, // USBS
-                     ReadWriteBit, // UCSZ1
-                     ReadWriteBit, // UCSZ0
-                     ReadWriteBit>; // UCPOL
+class UCSRC : public Register<0x40,
+                              ReadWriteBit, // URSEL
+                              ReadWriteBit, // UMSEL
+                              ReadWriteBit, // UPM1
+                              ReadWriteBit, // UPM0
+                              ReadWriteBit, // USBS
+                              ReadWriteBit, // UCSZ1
+                              ReadWriteBit, // UCSZ0
+                              ReadWriteBit> // UCPOL
+{
+private:
+	using Base = Register<0x40,
+                          ReadWriteBit, // URSEL
+                          ReadWriteBit, // UMSEL
+                          ReadWriteBit, // UPM1
+                          ReadWriteBit, // UPM0
+                          ReadWriteBit, // USBS
+                          ReadWriteBit, // UCSZ1
+                          ReadWriteBit, // UCSZ0
+                          ReadWriteBit>;// UCPOL
+
+	using URSEL = Bit7;
+public:
+	static INLINE void write(uint8_t v)
+	{
+		// URSEL bit must be set to write UCSRC
+		Base::write( URSEL::bitMask | v);
+	}
+
+	static INLINE uint8_t read()
+	{
+		// read two times from addr 0x40 to read UCSRC
+		Base::read();
+		return Base::read();
+	}
+};
 
 using URSEL = UCSRC::Bit7;
 using UMSEL = UCSRC::Bit6;
