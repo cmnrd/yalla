@@ -90,6 +90,8 @@ using SP2 = SREG::Bit2;
 using SP1 = SREG::Bit1;
 using SP0 = SREG::Bit0;
 
+using SP = DataRegister16<0x5d>;
+
 using GICR = Register<0x5b,
                      ReadWriteBit,  // INT1
                      ReadWriteBit,  // INT0
