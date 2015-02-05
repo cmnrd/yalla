@@ -1,0 +1,20 @@
+import supported_devices
+
+#get environment and project
+Import('env', 'project')
+localenv = env.Clone()
+
+#list of all devfices this subproject supports
+devices = ['atmega8']
+
+#appand additional compile flags
+localenv.jDev.ccflags   += ' '
+localenv.jDev.cxxflags  += ' '
+localenv.jDev.linkflags += ' '
+
+# Add library dependencies
+#env.jDev.AddLibrary('yalla')
+
+if(env.jDev.device in devices):
+  #call back to jDev to build the project for us
+  env.jDev.BuildProgram(localenv, project)
