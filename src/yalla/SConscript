@@ -1,23 +1,17 @@
-import glob
+import supported_devices
 
 #get environment and project
-Import('env')
+Import('env', 'project')
 localenv = env.Clone()
 
+#list of all devfices this subproject supports
+devices = supported_devices.list
 
-buildroot = '#/build/' + env.jDev.device
-builddir = buildroot + '/yalla'
-targetpath = builddir + '/libyalla.a'
+#appand additional compile flags
+localenv.jDev.ccflags   += ' '
+localenv.jDev.cxxflags  += ' '
+localenv.jDev.linkflags += ' '
 
-#append additional compile flags
-localenv.Append(CCFLAGS='')
-localenv.Append(CXXFLAGS='')
-
-#specify the build directory
-localenv.VariantDir(builddir, ".", duplicate=0)
-
-#add src files
-srclst = map(lambda x: builddir + '/' + x, glob.glob('*.cpp'))
-
-yalla = localenv.StaticLibrary(targetpath, source=srclst)
-env.Alias('all', yalla)  #note: not localenv
+if(env.jDev.device in devices):
+  #call back to jDev to build the project for us
+  env.jDev.BuildLibrary(localenv, project)
