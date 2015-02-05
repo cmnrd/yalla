@@ -13,19 +13,16 @@ Requirements
 
 To build Yalla the following tools are needed:
 
-* premake (>=4.4-beta5)
-* avr-gcc
+* scons
+* simavr
+* avr-gcc (>=4.8)
 * avr-libc
 * avr-binutils
 
 Build
 =====
 
-* run premake4 gmake
-	* Target device can be set with --mmcu=<device> (default is atmega8)
-	* Clock frequency can be set with --fcpu=<frequency> (default is 8000000)
-	* see premake4 --help for details
-
-* cd build
-
-* make <target>
+* run scons
+	* a list of target devices can be specified with devices=<list>
+	* see cons --help for details about variables
+	* to set variables permanently create a SConfig file and assign values there
