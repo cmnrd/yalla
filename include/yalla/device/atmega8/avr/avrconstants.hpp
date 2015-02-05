@@ -1,5 +1,5 @@
 /**
- * @brief  Definition of AVR ISA specific constants
+ * @brief  Definition of AVR specific constants
  * @author Christian Menard
  * @date   2015-01-21
  */
@@ -44,6 +44,12 @@ struct AvrConstants
 	static constexpr size_t iommBase = 0x20;
 	/// upper bound of the memory region reserved for I/O Registers
 	static constexpr size_t iommTop  = 0x5f;
+	/// lowest SRAM address
+	static constexpr size_t ramBottom = 0x60;
+	/// highest SRAM address
+	static constexpr size_t ramTop = 0x459;
+	/// Total RAM size in byte
+	static constexpr size_t ramSize = 1024;
 };
 
 } // namespace lunacy
