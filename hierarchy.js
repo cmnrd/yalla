@@ -14,9 +14,6 @@ var hierarchy =
     [ "yalla::NonAtomicGuard< AtomicPolicy::ForceOff >", "db/d02/structyalla_1_1_non_atomic_guard_3_01_atomic_policy_1_1_force_off_01_4.html", null ],
     [ "yalla::NonAtomicGuard< AtomicPolicy::RestoreState >", "d3/d03/classyalla_1_1_non_atomic_guard_3_01_atomic_policy_1_1_restore_state_01_4.html", null ],
     [ "yalla::Register< addr, _Bit7, _Bit6, _Bit5, _Bit4, _Bit3, _Bit2, _Bit1, _Bit0 >", "da/d41/classyalla_1_1_register.html", null ],
-    [ "yalla::Register< 0x40, ReadWriteBit, ReadWriteBit, ReadWriteBit, ReadWriteBit, ReadWriteBit, ReadWriteBit, ReadWriteBit, ReadWriteBit >", "da/d41/classyalla_1_1_register.html", [
-      [ "yalla::UCSRC", "d6/d97/classyalla_1_1_u_c_s_r_c.html", null ]
-    ] ],
     [ "yalla::ReservedBit< Reg, idx, regAndMask >", "d1/d31/structyalla_1_1_reserved_bit.html", [
       [ "yalla::ReadOnlyBit< Reg, idx, regAndMask >", "de/d19/structyalla_1_1_read_only_bit.html", [
         [ "yalla::StatusBitClearBy0< Reg, idx, regAndMask >", "d1/d96/structyalla_1_1_status_bit_clear_by0.html", [

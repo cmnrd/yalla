@@ -16,6 +16,5 @@ var namespaceyalla =
     [ "Register", "da/d41/classyalla_1_1_register.html", "da/d41/classyalla_1_1_register" ],
     [ "ReservedBit", "d1/d31/structyalla_1_1_reserved_bit.html", null ],
     [ "StatusBitClearBy0", "d1/d96/structyalla_1_1_status_bit_clear_by0.html", "d1/d96/structyalla_1_1_status_bit_clear_by0" ],
-    [ "StatusBitClearBy1", "d5/dfc/structyalla_1_1_status_bit_clear_by1.html", "d5/dfc/structyalla_1_1_status_bit_clear_by1" ],
-    [ "UCSRC", "d6/d97/classyalla_1_1_u_c_s_r_c.html", null ]
+    [ "StatusBitClearBy1", "d5/dfc/structyalla_1_1_status_bit_clear_by1.html", "d5/dfc/structyalla_1_1_status_bit_clear_by1" ]
 ];

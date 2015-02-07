@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Yalla: include/yalla/avr/iomm.hpp Source File</title>
+<title>Yalla: include/yalla/attributes.hpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('dd/dc1/iomm_8hpp_source.html','../../');});
+$(document).ready(function(){initNavTree('df/d6a/attributes_8hpp_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('dd/dc1/iomm_8hpp_source.html','../../'
 
 <div class="header">
   <div class="headertitle">
-<div class="title">iomm.hpp</div>  </div>
+<div class="title">attributes.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
@@ -134,45 +134,19 @@ $(document).ready(function(){initNavTree('dd/dc1/iomm_8hpp_source.html','../../'
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;attributes.hpp&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;avr/avrconstants.hpp&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/dce/namespaceyalla.html">yalla</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, addr_t addr&gt;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html">IOMMPtr</a></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;{</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">using</span> PtrType = <span class="keyword">volatile</span> T*;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">static</span> constexpr PtrType ptr = <span class="keyword">reinterpret_cast&lt;</span>PtrType<span class="keyword">&gt;</span>(addr);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#af94de93502201a784020a8ff2becb8be">   56</a></span>&#160;    <span class="keyword">using</span> <a class="code" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#af94de93502201a784020a8ff2becb8be">Type</a> = T;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a9d968a9c42e7ad0047ccda6b6774247f">   58</a></span>&#160;    <span class="keyword">static</span> INLINE T    <a class="code" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a9d968a9c42e7ad0047ccda6b6774247f">read</a>()     { <span class="keywordflow">return</span> *ptr; }</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#ae0dfaac8b8e41ec7e62a68d77e0fdb7d">   60</a></span>&#160;    <span class="keyword">static</span> INLINE <span class="keywordtype">void</span> <a class="code" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#ae0dfaac8b8e41ec7e62a68d77e0fdb7d">write</a>(T v) { *ptr = v; }</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a29247757edc9f4c3e80e18ab30bf8fa2">   62</a></span>&#160;    <span class="keyword">static</span> INLINE <span class="keyword">volatile</span> T&amp;   <a class="code" href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a29247757edc9f4c3e80e18ab30bf8fa2">deref</a>()    { <span class="keywordflow">return</span> *ptr; }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// sanity check</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    static_assert(addr &gt;= <a class="code" href="../../d1/d9a/structyalla_1_1_avr_constants.html#a67080ef7de5f3229d7f5761e5d59089b">AvrConstants::iommBase</a> &amp;&amp;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                  addr + (<span class="keyword">sizeof</span>(T) - 1) &lt;= <a class="code" href="../../d1/d9a/structyalla_1_1_avr_constants.html#a5a2bbeaca67b45d379d74a8bce64d1e5">AvrConstants::iommTop</a>,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                  <span class="stringliteral">&quot;IOMMPtr points to region outside of I/O memory!&quot;</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;} <span class="comment">// namespace lunacy</span></div>
-<div class="ttc" id="classyalla_1_1_i_o_m_m_ptr_html_a29247757edc9f4c3e80e18ab30bf8fa2"><div class="ttname"><a href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a29247757edc9f4c3e80e18ab30bf8fa2">yalla::IOMMPtr::deref</a></div><div class="ttdeci">static INLINE volatile T &amp; deref()</div><div class="ttdoc">Get a reference of the object pointed to. </div><div class="ttdef"><b>Definition:</b> iomm.hpp:62</div></div>
-<div class="ttc" id="classyalla_1_1_i_o_m_m_ptr_html_ae0dfaac8b8e41ec7e62a68d77e0fdb7d"><div class="ttname"><a href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#ae0dfaac8b8e41ec7e62a68d77e0fdb7d">yalla::IOMMPtr::write</a></div><div class="ttdeci">static INLINE void write(T v)</div><div class="ttdoc">Write value to addr before write andMask and orMask are applied. </div><div class="ttdef"><b>Definition:</b> iomm.hpp:60</div></div>
-<div class="ttc" id="structyalla_1_1_avr_constants_html_a5a2bbeaca67b45d379d74a8bce64d1e5"><div class="ttname"><a href="../../d1/d9a/structyalla_1_1_avr_constants.html#a5a2bbeaca67b45d379d74a8bce64d1e5">yalla::AvrConstants::iommTop</a></div><div class="ttdeci">static constexpr size_t iommTop</div><div class="ttdoc">upper bound of the memory region reserved for I/O Registers </div><div class="ttdef"><b>Definition:</b> avrconstants.hpp:46</div></div>
-<div class="ttc" id="classyalla_1_1_i_o_m_m_ptr_html_af94de93502201a784020a8ff2becb8be"><div class="ttname"><a href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#af94de93502201a784020a8ff2becb8be">yalla::IOMMPtr&lt; uint8_t, addr &gt;::Type</a></div><div class="ttdeci">uint8_t Type</div><div class="ttdoc">The type used for read and write operations. </div><div class="ttdef"><b>Definition:</b> iomm.hpp:56</div></div>
-<div class="ttc" id="namespaceyalla_html"><div class="ttname"><a href="../../d8/dce/namespaceyalla.html">yalla</a></div><div class="ttdoc">Definition of AVR ISA specific constants. </div><div class="ttdef"><b>Definition:</b> avrconstants.hpp:35</div></div>
-<div class="ttc" id="classyalla_1_1_i_o_m_m_ptr_html"><div class="ttname"><a href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html">yalla::IOMMPtr</a></div><div class="ttdef"><b>Definition:</b> iomm.hpp:49</div></div>
-<div class="ttc" id="structyalla_1_1_avr_constants_html_a67080ef7de5f3229d7f5761e5d59089b"><div class="ttname"><a href="../../d1/d9a/structyalla_1_1_avr_constants.html#a67080ef7de5f3229d7f5761e5d59089b">yalla::AvrConstants::iommBase</a></div><div class="ttdeci">static constexpr size_t iommBase</div><div class="ttdoc">base address of the memory region reserved for I/O Registers </div><div class="ttdef"><b>Definition:</b> avrconstants.hpp:44</div></div>
-<div class="ttc" id="classyalla_1_1_i_o_m_m_ptr_html_a9d968a9c42e7ad0047ccda6b6774247f"><div class="ttname"><a href="../../d2/d40/classyalla_1_1_i_o_m_m_ptr.html#a9d968a9c42e7ad0047ccda6b6774247f">yalla::IOMMPtr::read</a></div><div class="ttdeci">static INLINE T read()</div><div class="ttdoc">Read value from addr. </div><div class="ttdef"><b>Definition:</b> iomm.hpp:58</div></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifndef INLINE</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#   define INLINE __attribute__((always_inline))</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifndef PACKED</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#   define PACKED __attribute__((packed))</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_3451fe5d3fcb3b42b61262e4100a1873.html">include</a></li><li class="navelem"><a class="el" href="../../dir_a55443e4feaab4c0de88fe36b3fe133a.html">yalla</a></li><li class="navelem"><a class="el" href="../../dir_07aabdd1ff8477c9ef9d41a6e35f8b4d.html">avr</a></li><li class="navelem"><b>iomm.hpp</b></li>
+    <li class="navelem"><a class="el" href="../../dir_3451fe5d3fcb3b42b61262e4100a1873.html">include</a></li><li class="navelem"><a class="el" href="../../dir_a55443e4feaab4c0de88fe36b3fe133a.html">yalla</a></li><li class="navelem"><b>attributes.hpp</b></li>
     <li class="footer">Generated on Sat Feb 7 2015 12:24:20 for Yalla by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
