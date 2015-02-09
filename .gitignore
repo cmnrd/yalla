@@ -3,3 +3,5 @@ include/avr_mcu_section.h
 .directory
 doc/html
 .sconsign*
+*.sublime-project
+*.sublime-workspace
