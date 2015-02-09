@@ -13,9 +13,11 @@ sys.dont_write_bytecode = True
 from SCons.Script.SConscript import SConsEnvironment
 import glob
 import os
-import config
-import message
-import supported_devices
+
+from scons import config
+from scons import message
+from scons import devices
+from scons import projects
 
 ################################################################################
 #
@@ -29,9 +31,13 @@ vars = Variables('SConfig')
 vars.Add(ListVariable('devices',
                       'specify the target devices',
                       'all',
-                       supported_devices.list))
+                       devices.list))
 
 vars.Add(BoolVariable('verbose', 'print full gcc comands', 0))
+
+vars.Add('gcc',    'path to gcc',    'avr-gcc')
+vars.Add('ar',     'path to ar',     'avr-gcc-ar')
+vars.Add('ranlib', 'path to ranlib', 'avr-gcc-ranlib')
 
 ################################################################################
 #
@@ -136,10 +142,10 @@ Help(vars.GenerateHelpText(env))
 env.SConsignFile()
 
 # override the default build tools
-env['CC']  = 'avr-gcc'
-env['CXX'] = 'avr-gcc'
-env['AR']  = 'avr-gcc-ar'
-env['RANLIB']  = 'avr-gcc-ranlib'
+env['CC']     = env['gcc']
+env['CXX']    = env['gcc']
+env['AR']     = env['ar']
+env['RANLIB'] = env['ranlib']
 
 # set build flags
 env['CCFLAGS']   = config.ccflags
@@ -178,9 +184,5 @@ Export('env')
 for device in env['devices']:
 	env.jDev.device = device
 
-	# setup the yalla library seperately
-	env.jDev.Subproject('yalla')
-
-	# specify all of the sub-projects in the section
-	env.jDev.Subproject('test/avr/iomm')
-	env.jDev.Subproject('test/avr/register')
+	for project in projects.list:
+		env.jDev.Subproject(project)
