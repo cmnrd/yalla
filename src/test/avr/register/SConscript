@@ -1,17 +1,8 @@
-from scons import devices
-
 # get environment and project
-Import('env', 'project')
-localenv = env.Clone()
+Import('env', 'project', 'device')
 
-# list of all devices this project supports
-devices = devices.list
+env.pm.DependsOn(project, device, 'yalla')
+env.pm.DependsOnSimavr(project)
 
-# appand additional compile flags
-localenv.jDev.ccflags   += ' '
-localenv.jDev.cxxflags  += ' '
-localenv.jDev.linkflags += ' '
-
-if(env.jDev.device in devices):
-  #call back to jDev to build the project for us
-  env.jDev.BuildProgram(localenv, project)
+# call back to project manager to build the project for us
+env.pm.BuildProject(project, device)

@@ -1,17 +1,13 @@
-from scons import devices
-
 # get environment and project
-Import('env', 'project')
-localenv = env.Clone()
+Import('env', 'project', 'device')
 
-# list of all devices this project supports
-devices = devices.list
+env.pm.IsLibrary(project)
 
-# appand additional compile flags
-localenv.jDev.ccflags   += ' '
-localenv.jDev.cxxflags  += ' '
-localenv.jDev.linkflags += ' '
+env.pm.AddIncludePath(project, '#/include/yalla')
+env.pm.AddIncludePath(project, '#/include/yalla/device/' + device)
 
-if(env.jDev.device in devices):
-  #call back to jDev to build the project for us
-  env.jDev.BuildLibrary(localenv, project)
+env.pm.AddUserIncludePath(project, '#/include/yalla')
+env.pm.AddUserIncludePath(project, '#/include/yalla/device/' + device)
+
+# call back to project manager to build the project for us
+env.pm.BuildProject(project, device)
