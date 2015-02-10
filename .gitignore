@@ -5,3 +5,4 @@ doc/html
 .sconsign*
 *.sublime-project
 *.sublime-workspace
+SConfig
