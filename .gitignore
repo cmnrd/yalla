@@ -2,3 +2,4 @@ build
 include/avr_mcu_section.h
 .directory
 doc/html
+doc/yalla
