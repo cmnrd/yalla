@@ -1,4 +1,4 @@
- 
+
 /**
  * @brief  Class representing a io register
  * @author Christian Menard
@@ -230,4 +230,4 @@ public:
 	}
 };
 
-} // namespace lunacy
+} // namespace yalla

@@ -35,4 +35,4 @@
 namespace yalla
 {
 
-} // namespace lunacy
+} // namespace yalla

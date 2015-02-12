@@ -47,5 +47,5 @@ public:
 	static bool INLINE areGloballyDisabled() { return !(SREG::read() & (1 << 7)); }
 };
 
-} // namespace lunacy
+} // namespace yalla
 
