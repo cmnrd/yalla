@@ -41,6 +41,8 @@ vars.Add('gcc',    'path to gcc',    'avr-gcc')
 vars.Add('ar',     'path to ar',     'avr-gcc-ar')
 vars.Add('ranlib', 'path to ranlib', 'avr-gcc-ranlib')
 
+vars.Add('frequency', 'the target cpu frequency', 8000000)
+
 ################################################################################
 #
 # Create the environment
@@ -79,6 +81,9 @@ if env['verbose'] == 0:
 	env['LINKCOMSTR']   = message.link_program
 	env['RANLIBCOMSTR'] = message.ranlib_library
 	env['PRINT_CMD_LINE_FUNC'] = message.printCmdLine
+
+# set cpu frequency
+env.Append(CPPDEFINES = ['F_CPU=' + str(env['frequency'])])
 
 # construct the project manager and add it to the environment
 SConsEnvironment.pm = ProjectManager(env, env['devices'])

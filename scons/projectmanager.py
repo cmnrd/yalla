@@ -163,7 +163,7 @@ class ProjectManager:
 				localenv.Append(LIBPATH = [objdir + '/' + self.projects[dep].name])
 				localenv.Append(CPPPATH = self.projects[dep].userincludepaths)
 
-			# check if we build dimavr or debug version
+			# check if we build simavr or debug version
 			if localenv['simavr']:
 				localenv.Append(CPPDEFINES = ['SIMAVR=1'])
 				localenv.Append(CPPDEFINES = ['DEBUG=1'])
@@ -171,6 +171,9 @@ class ProjectManager:
 				localenv.ParseConfig('pkg-config --cflags simavr')
 			elif localenv['simavr']:
 				localenv.Append(CPPDEFINES = ['DEBUG=1'])
+
+			# tell the programs on which MCU they are running
+			localenv.Append(CPPDEFINES = ['MCU=\\\"' + device + '\\\"'])
 
 			#specify the build directory
 			localenv.VariantDir(objbuilddir, ".", duplicate=0)
