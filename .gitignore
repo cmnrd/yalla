@@ -6,3 +6,4 @@ doc/html
 *.sublime-project
 *.sublime-workspace
 SConfig
+*.vcd
