@@ -34,3 +34,13 @@ link_library = '%sLinking Static Library %s==> %s$TARGET%s' % \
 
 ranlib_library = '%sRanlib Library %s==> %s$TARGET%s' % \
    (colors['red'], colors['purple'], colors['yellow'], colors['end'])
+
+def printCmdLine(s, target, source, env):
+	if s.startswith('avr-objcopy') :
+		print '%sCreating HEX-File %s==> %s%s%s' % \
+		(colors['green'], colors['purple'], colors['yellow'], target[0], colors['end'])
+	elif s.startswith('avr-size') :
+		print '%sMemory Usage %s==> %s%s%s' % \
+		(colors['green'], colors['purple'], colors['yellow'], source[0], colors['end'])
+	else:
+		print s

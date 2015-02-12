@@ -32,6 +32,8 @@ vars.Add(ListVariable('devices',
 
 vars.Add(BoolVariable('verbose', 'print full gcc comands', 0))
 
+vars.Add(BoolVariable('memusage', 'print memory usage for every project', 1))
+
 vars.Add('gcc',    'path to gcc',    'avr-gcc')
 vars.Add('ar',     'path to ar',     'avr-gcc-ar')
 vars.Add('ranlib', 'path to ranlib', 'avr-gcc-ranlib')
@@ -68,6 +70,7 @@ if env['verbose'] == 0:
 	env['ARCOMSTR']     = message.link_library
 	env['LINKCOMSTR']   = message.link_program
 	env['RANLIBCOMSTR'] = message.ranlib_library
+	env['PRINT_CMD_LINE_FUNC'] = message.printCmdLine
 
 # construct the project manager and add it to the environment
 SConsEnvironment.pm = ProjectManager(env, env['devices'])

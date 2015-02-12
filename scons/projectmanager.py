@@ -29,6 +29,7 @@ class Project:
 		self.devices = devices.list
 
 		self.name = name
+		self.basename = os.path.basename(name)
 
 		self.isLibrary = False
 
@@ -128,13 +129,6 @@ class ProjectManager:
 
 			builddir = '#/build/' + project
 
-			# set target
-			if p.isLibrary:
-				targetpath = builddir + '/lib' + os.path.basename(project) + '.a'
-			else:
-				targetpath = builddir + '/' + os.path.basename(project) + '.elf'
-
-
 			# setup the environment
 			localenv.Append(CPPPATH = p.includepaths)
 
@@ -171,9 +165,18 @@ class ProjectManager:
 
 			# build it
 			if p.isLibrary:
-				pgm = localenv.StaticLibrary(targetpath, source=srclst)
+				target = builddir + '/lib' + p.basename + '.a'
+				localenv.StaticLibrary(target, source=srclst)
 			else:
-				pgm = localenv.Program(targetpath, source=srclst)
+				target = builddir + '/' + p.basename + '.elf'
+				localenv.Program(target, source=srclst)
+				src = target
+				target = builddir + '/' + p.basename + '.hex'
 
-			# add alias 'all'
-			self.env.Alias('all', pgm)
+				localenv.Command(target, src, 'avr-objcopy -j .text -j .data -O ihex $SOURCE $TARGET')
+
+			# show memory usage
+			if localenv['memusage']:
+				src    = target
+				target = builddir + '/' + p.basename + '.size'
+				localenv.Command( target, src, 'avr-size ${SOURCE} | tee ${TARGET}')
