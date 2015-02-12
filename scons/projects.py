@@ -6,6 +6,6 @@
 
 list = [
 	'yalla',
-	'test/avr/iomm',
-	'test/avr/register'
+	'yalla/test/avr/iomm',
+	'yalla/test/avr/register'
 ]
