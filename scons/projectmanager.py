@@ -33,8 +33,6 @@ class Project:
 
 		self.isLibrary = False
 
-		self.simavr = False
-
 	def SConscriptPath(self):
 		return '#/src/' + self.name + '/SConscript'
 
@@ -124,13 +122,27 @@ class ProjectManager:
 		# build only if current device is supported by the project
 		if device in p.devices:
 
-			base_builddir = '#/build/' + device
-			objbuilddir   = base_builddir + '/obj/' + p.name
-			libinstalldir = base_builddir + '/lib/'
-			bininstalldir = base_builddir + '/bin/'
-
 			# create a new local environment to setup the build
 			localenv = self.env.Clone()
+
+			# set build dirs
+			base_builddir = '#/build/' + device
+
+			if localenv['simavr']:
+				objdir        = base_builddir + '/obj/simavr'
+				objbuilddir   = base_builddir + '/obj/simavr/' + p.name
+				libinstalldir = base_builddir + '/lib/simavr'
+				bininstalldir = base_builddir + '/bin/simavr'
+			elif localenv['debug']:
+				objdir        = base_builddir + '/obj'
+				objbuilddir   = base_builddir + '/obj/debug/' + p.name
+				libinstalldir = base_builddir + '/lib/debug'
+				bininstalldir = base_builddir + '/bin/debug'
+			else:
+				objdir        = base_builddir + '/obj'
+				objbuilddir   = base_builddir + '/obj/' + p.name
+				libinstalldir = base_builddir + '/lib'
+				bininstalldir = base_builddir + '/bin'
 
 			# setup the environment
 			localenv.Append(CPPPATH = p.includepaths)
@@ -148,12 +160,17 @@ class ProjectManager:
 			# add dependencies
 			for dep in p.dependencies:
 				localenv.Append(LIBS    = self.projects[dep].name)
-				localenv.Append(LIBPATH = '#/build/' + device + '/obj/' + self.projects[dep].name)
+				localenv.Append(LIBPATH = [objdir + '/' + self.projects[dep].name])
 				localenv.Append(CPPPATH = self.projects[dep].userincludepaths)
 
-			# check for simavr
-			if p.simavr:
+			# check if we build dimavr or debug version
+			if localenv['simavr']:
+				localenv.Append(CPPDEFINES = ['SIMAVR=1'])
+				localenv.Append(CPPDEFINES = ['DEBUG=1'])
+				# check for simavr
 				localenv.ParseConfig('pkg-config --cflags simavr')
+			elif localenv['simavr']:
+				localenv.Append(CPPDEFINES = ['DEBUG=1'])
 
 			#specify the build directory
 			localenv.VariantDir(objbuilddir, ".", duplicate=0)

@@ -2,7 +2,6 @@
 Import('env', 'project', 'device')
 
 env.pm.DependsOn(project, device, 'yalla')
-env.pm.DependsOnSimavr(project)
 
 # call back to project manager to build the project for us
 env.pm.BuildProject(project, device)

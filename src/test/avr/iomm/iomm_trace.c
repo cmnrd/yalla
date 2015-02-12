@@ -28,6 +28,8 @@
  * SOFTWARE.
  */
 
+#ifdef SIMAVR
+
 #include <avr/avr_mcu_section.h>
 
 AVR_MCU(8000000, "atmega8");
@@ -38,3 +40,5 @@ const struct avr_mmcu_vcd_trace_t _mytrace[] _MMCU_ =
 	{ AVR_MCU_VCD_SYMBOL("PORTC"), .what = (void*)0x35},
 	{ AVR_MCU_VCD_SYMBOL("PORTB"), .what = (void*)0x38},
 };
+
+#endif // SIMAVR

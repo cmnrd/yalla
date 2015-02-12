@@ -34,6 +34,9 @@ vars.Add(BoolVariable('verbose', 'print full gcc comands', 0))
 
 vars.Add(BoolVariable('memusage', 'print memory usage for every project', 1))
 
+vars.Add(BoolVariable('debug', 'build target for debugging', 0))
+vars.Add(BoolVariable('simavr', 'build target for simavr (includes debug)', 0))
+
 vars.Add('gcc',    'path to gcc',    'avr-gcc')
 vars.Add('ar',     'path to ar',     'avr-gcc-ar')
 vars.Add('ranlib', 'path to ranlib', 'avr-gcc-ranlib')
@@ -59,9 +62,14 @@ env['AR']     = env['ar']
 env['RANLIB'] = env['ranlib']
 
 # set build flags
-env['CCFLAGS']   = config.ccflags
-env['CXXFLAGS']  = config.cxxflags
-env['LINKFLAGS'] = config.linkflags
+if env['debug'] or env['simavr']:
+	env['CCFLAGS']   = config.dbg_ccflags
+	env['CXXFLAGS']  = config.dbg_cxxflags
+	env['LINKFLAGS'] = config.dbg_linkflags
+else:
+	env['CCFLAGS']   = config.ccflags
+	env['CXXFLAGS']  = config.cxxflags
+	env['LINKFLAGS'] = config.linkflags
 
 # set messages
 if env['verbose'] == 0:
