@@ -1,7 +1,7 @@
 /**
- * @brief  Short test of IOMMPtr
+ * @brief  device specific definitions for simavr
  * @author Christian Menard
- * @date   2015-01-21
+ * @date   2015-02-12
  */
 
 /*
@@ -28,40 +28,6 @@
  * SOFTWARE.
  */
 
-#include <avr/iomm.hpp>
-#include <simavr.hpp>
-using namespace yalla;
+#pragma once
 
-using PORTD = IOMMPtr<uint8_t, 0x32>;
-using PORTC = IOMMPtr<uint8_t, 0x35>;
-using PORTB = IOMMPtr<uint8_t, 0x38>;
-
-int main()
-{
-	Simavr::startTrace();
-
-	PORTB::write(0x00);
-	PORTC::write(0x00);
-	PORTD::write(0x00);
-
-	PORTD::write(0x01);
-	PORTD::write(0x20);
-
-	PORTB::write(0);
-
-	PORTC::write(0x55);
-
-	PORTB::write(PORTD::read());
-
-	PORTC::deref() = PORTB::deref();
-
-	PORTB::write(0x00);
-	PORTC::write(0x00);
-	PORTD::write(0x00);
-
-	Simavr::stopTrace();
-
-	while(true);
-
-	return 0;
-}
+#define SIMAVR_CMD_REG 0x39
