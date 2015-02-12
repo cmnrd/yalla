@@ -124,10 +124,13 @@ class ProjectManager:
 		# build only if current device is supported by the project
 		if device in p.devices:
 
+			base_builddir = '#/build/' + device
+			objbuilddir   = base_builddir + '/obj/' + p.name
+			libinstalldir = base_builddir + '/lib/'
+			bininstalldir = base_builddir + '/bin/'
+
 			# create a new local environment to setup the build
 			localenv = self.env.Clone()
-
-			builddir = '#/build/' + project
 
 			# setup the environment
 			localenv.Append(CPPPATH = p.includepaths)
@@ -145,7 +148,7 @@ class ProjectManager:
 			# add dependencies
 			for dep in p.dependencies:
 				localenv.Append(LIBS    = self.projects[dep].name)
-				localenv.Append(LIBPATH = '#/build/' + dep)
+				localenv.Append(LIBPATH = '#/build/' + device + '/obj/' + self.projects[dep].name)
 				localenv.Append(CPPPATH = self.projects[dep].userincludepaths)
 
 			# check for simavr
@@ -153,30 +156,32 @@ class ProjectManager:
 				localenv.ParseConfig('pkg-config --cflags simavr')
 
 			#specify the build directory
-			localenv.VariantDir(builddir, ".", duplicate=0)
+			localenv.VariantDir(objbuilddir, ".", duplicate=0)
 
 			# add sources
-			srclst =  map(lambda x: builddir + '/' + x, glob.glob('*.cpp'))
-			srclst += map(lambda x: builddir + '/' + x, glob.glob('*.c'))
+			srclst =  map(lambda x: objbuilddir + '/' + x, glob.glob('*.cpp'))
+			srclst += map(lambda x: objbuilddir + '/' + x, glob.glob('*.c'))
 
 			for directory in p.srcdirs:
-				srclst += map(lambda x: builddir + '/' + x, glob.glob(directory + '/*.cpp'))
-				srclst += map(lambda x: builddir + '/' + x, glob.glob(directory + '/*.c'))
+				srclst += map(lambda x: objbuilddir + '/' + x, glob.glob(directory + '/*.cpp'))
+				srclst += map(lambda x: objbuilddir + '/' + x, glob.glob(directory + '/*.c'))
 
 			# build it
 			if p.isLibrary:
-				target = builddir + '/lib' + p.basename + '.a'
-				localenv.StaticLibrary(target, source=srclst)
+				target = objbuilddir + '/lib' + p.basename + '.a'
+				out = localenv.StaticLibrary(target, source=srclst)
+				out = localenv.Install(libinstalldir, out)
 			else:
-				target = builddir + '/' + p.basename + '.elf'
-				localenv.Program(target, source=srclst)
-				src = target
-				target = builddir + '/' + p.basename + '.hex'
+				target = objbuilddir + '/' + p.basename + '.elf'
+				out = localenv.Program(target, source=srclst)
+				out = localenv.Install(bininstalldir, out)
 
-				localenv.Command(target, src, 'avr-objcopy -j .text -j .data -O ihex $SOURCE $TARGET')
+				src = target
+				target = objbuilddir + '/' + p.basename + '.hex'
+				tmp = localenv.Command(target, out, 'avr-objcopy -j .text -j .data -O ihex $SOURCE $TARGET')
+				localenv.Install(bininstalldir, tmp)
 
 			# show memory usage
 			if localenv['memusage']:
-				src    = target
-				target = builddir + '/' + p.basename + '.size'
-				localenv.Command( target, src, 'avr-size ${SOURCE} | tee ${TARGET}')
+				target = objbuilddir + '/' + p.basename + '.size'
+				localenv.Command( target, out, 'avr-size ${SOURCE} | tee ${TARGET}')

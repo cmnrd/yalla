@@ -23,24 +23,27 @@ if not sys.stdout.isatty():
 	for key, value in colors.iteritems():
 		colors[key] = ''
 
-compile_source = '%sCompiling %s==> %s$SOURCE%s' % \
+compile_source = '%sCompiling    %s==> %s$TARGET%s' % \
    (colors['blue'], colors['purple'], colors['yellow'], colors['end'])
 
-link_program = '%sLinking Program %s==> %s$TARGET%s' % \
+link_program   = '%sLinking      %s==> %s$TARGET%s' % \
    (colors['red'], colors['purple'], colors['yellow'], colors['end'])
 
-link_library = '%sLinking Static Library %s==> %s$TARGET%s' % \
+link_library   = '%sLinking      %s==> %s$TARGET%s' % \
    (colors['red'], colors['purple'], colors['yellow'], colors['end'])
 
-ranlib_library = '%sRanlib Library %s==> %s$TARGET%s' % \
+ranlib_library = '%sRanlib       %s==> %s$TARGET%s' % \
    (colors['red'], colors['purple'], colors['yellow'], colors['end'])
 
 def printCmdLine(s, target, source, env):
 	if s.startswith('avr-objcopy') :
-		print '%sCreating HEX-File %s==> %s%s%s' % \
+		print '%sGenerate hex %s==> %s%s%s' % \
 		(colors['green'], colors['purple'], colors['yellow'], target[0], colors['end'])
 	elif s.startswith('avr-size') :
 		print '%sMemory Usage %s==> %s%s%s' % \
-		(colors['green'], colors['purple'], colors['yellow'], source[0], colors['end'])
+		(colors['cyan'], colors['purple'], colors['yellow'], source[0], colors['end'])
+	elif s.startswith('Install') :
+		print '%sInstalling   %s==> %s%s%s' % \
+		(colors['green'], colors['purple'], colors['yellow'], target[0], colors['end'])
 	else:
 		print s
