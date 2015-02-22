@@ -110,6 +110,11 @@ class ProjectManager:
 			tmp = env.Command(target, build, 'avr-objcopy -R .eeprom -O ihex $SOURCE $TARGET')
 			env.Install(bindir, tmp)
 
+			# add a simavr target
+			if project.variant == 'sim':
+				simavr = env.Command('#.scons/simavr/' + project.device + '/' + project.name, install, 'simavr ${SOURCE} -f ' + str(env['frequency']))
+				env.Alias('simavr/' + project.device + '/' + project.name, simavr)
+
 		if env['memusage']:
 			memsize = env.Command(None, build, 'avr-size ${SOURCE}')
 			env.Depends(install, memsize)
