@@ -30,4 +30,5 @@
 
 #pragma once
 
-#define SIMAVR_CMD_REG 0x39
+#define SIMAVR_COMMAND_REG 0x39
+#define SIMAVR_CONSOLE_REG 0x3a

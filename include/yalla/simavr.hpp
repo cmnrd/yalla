@@ -35,12 +35,16 @@ extern "C"
 {
 #include <avr/avr_mcu_section.h>
 }
+#else
+#define SIMAVR_CMD_VCD_START_TRACE 0
+#define SIMAVR_CMD_VCD_STOP_TRACE 0
 #endif
 
 #include <avr/interrupts.hpp>
 #include <avr/iomm.hpp>
 #include <avr/sleep.hpp>
 #include <simavr.h>
+#include <util/ostream.hpp>
 
 namespace yalla
 {
@@ -55,7 +59,8 @@ class Simavr
 {
 private:
 
-	using CommandReg = IOMMPtr<uint8_t, SIMAVR_CMD_REG>;
+	using CommandReg = IOMMPtr<uint8_t, SIMAVR_COMMAND_REG>;
+	using ConsoleReg = IOMMPtr<uint8_t, SIMAVR_CONSOLE_REG>;
 
 public:
 
@@ -79,6 +84,14 @@ public:
 			sleep_unsafe(SleepMode::Idle);
 		}
 	}
+
+	static void putc(char c)
+	{
+		if(simavr)
+			ConsoleReg::write(c);
+	}
+
+	static OStream<simavr ? putc : nullptr> cout;
 
 };
 
