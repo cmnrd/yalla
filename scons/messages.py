@@ -35,7 +35,7 @@ link_library   = '%sLinking      %s==> %s$TARGET%s' % \
 ranlib_library = '%sRanlib       %s==> %s$TARGET%s' % \
    (colors['red'], colors['purple'], colors['yellow'], colors['end'])
 
-def printCmdLine(s, target, source, env):
+def PrintCmdLine(s, target, source, env):
 	if s.startswith('avr-objcopy') :
 		print '%sGenerate hex %s==> %s%s%s' % \
 		(colors['green'], colors['purple'], colors['yellow'], target[0], colors['end'])
@@ -47,3 +47,11 @@ def printCmdLine(s, target, source, env):
 		(colors['green'], colors['purple'], colors['yellow'], target[0], colors['end'])
 	else:
 		print s
+
+def SetupMessages(env):
+	env['CCCOMSTR']     = compile_source
+	env['CXXCOMSTR']    = compile_source
+	env['ARCOMSTR']     = link_library
+	env['LINKCOMSTR']   = link_program
+	env['RANLIBCOMSTR'] = ranlib_library
+	env['PRINT_CMD_LINE_FUNC'] = PrintCmdLine

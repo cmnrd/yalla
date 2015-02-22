@@ -23,6 +23,5 @@ Build
 =====
 
 * run scons
-	* a list of target devices can be specified with devices=<list>
 	* see cons --help for details about variables
 	* to set variables permanently create a SConfig file and assign values there

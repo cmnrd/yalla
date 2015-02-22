@@ -1,13 +1,7 @@
 # get environment and project
-Import('env', 'project', 'device')
+Import('env', 'project')
 
-env.pm.IsLibrary(project)
-
-env.pm.AddIncludePath(project, '#/include/yalla')
-env.pm.AddIncludePath(project, '#/include/yalla/device/' + device)
-
-env.pm.AddUserIncludePath(project, '#/include/yalla')
-env.pm.AddUserIncludePath(project, '#/include/yalla/device/' + device)
+project.isLibrary = True
 
 # call back to project manager to build the project for us
-env.pm.BuildProject(project, device)
+env.pm.BuildProject(project)

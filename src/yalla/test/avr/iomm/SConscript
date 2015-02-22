@@ -1,7 +1,7 @@
 # get environment and project
-Import('env', 'project', 'device')
+Import('env', 'project')
 
-env.pm.DependsOn(project, device, 'yalla')
+project.dependencies += ['yalla']
 
 # call back to project manager to build the project for us
-env.pm.BuildProject(project, device)
+env.pm.BuildProject(project)

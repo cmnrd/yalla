@@ -4,204 +4,112 @@
 #
 ################################################################################
 
-from scons import devices
 from SCons.Script import *
 
 import glob
 
-# simple type collecting project specific data
+from scons.buildconfig import BuildConfig
+
 class Project:
-
-	def __init__(self, name):
-		self.ccflags   = ''
-		self.cxxflags  = ''
-		self.linkflags = ''
-
-		self.includepaths = list()
-		self.userincludepaths = list()
-		self.dependencies = list()
-
-		self.libs = list()
-		self.libpaths = list()
-
-		self.srcdirs = list()
-
-		self.devices = devices.list
-
-		self.name = name
-		self.basename = os.path.basename(name)
-
+	def __init__(self, name, env, variant, device):
+		self.name      = name
 		self.isLibrary = False
+		self.config    = BuildConfig()
+		self.srcdirs   = ['.']
+		self.env       = env
+		self.variant   = variant
+		self.device    = device
+		self.dependencies = []
 
-	def SConscriptPath(self):
-		return '#/src/' + self.name + '/SConscript'
+		self.config.cpppath  = ['#/include/' + name]
+		self.config.cpppath += ['#/include/' + name + '/device/' + device]
+
 
 # the project manager is responsible for keeping track of every project, its
 # settings, and for setting up the build environment
 class ProjectManager:
 
-	def __init__(self, env, devices):
-		self.env = env
-		self.devices = devices
-		self.projects = dict()
+	def __init__(self, env, projects, devices, variants):
+		self.globalEnv = env
+		self.projects  = projects
+		self.devices   = devices
+		self.variants  = variants
 
-	# add a project to the manager
-	def AddProject(self, name):
+	def SConscriptPath(self, project):
+		return '#/src/' + project + '/SConscript'
+
+	def __BuildAllProjects(self, deviceEnv, variant, device):
+		for p in self.projects:
+			env = deviceEnv.Clone()
+			project = Project(p, env, variant, device)
+			SConscript(self.SConscriptPath(p), exports=['project'])
+
+	def __BuildAllDevices(self, variantEnv, variant):
 		for device in self.devices:
-			project = device + '/' + name
 
-			# add project only if not already in the list
-			if not project in self.projects:
-				self.projects[project] = Project(name)
-				SConscript(self.projects[project].SConscriptPath(), exports=['project', 'device'])
+			deviceEnv = variantEnv.Clone()
 
-	# set the devices a project supports
-	def SetSupportedDevices(self, project, devices):
-		self.projects[project].devices = devices
+			# set mcu
+			deviceEnv.Append(CPPDEFINES = ['MCU=\\\"' + device + '\\\"'])
+			deviceEnv.Append(CFLAGS = ['-mmcu=' + device])
+			deviceEnv.Append(LINKFLAGS = ['-mmcu=' + device])
 
-	# add project specific CCFLAGS
-	def AppendCCFlags(self, project, flags):
-		self.projects[project].ccflags += flags
+			self.__BuildAllProjects(deviceEnv, variant, device)
 
-	# add project specific CXXFLAGS
-	def AppendCXXFlags(self, project, flags):
-		self.projects[project].cxxflags += flags
+	def __BuildAllVariants(self):
+		for variant in self.variants:
+			variantEnv = self.globalEnv.Clone()
+			self.variants[variant].AppendToEnvironment(variantEnv)
+			self.__BuildAllDevices(variantEnv, variant)
 
-	# add project specific LINKFLAGS
-	def AppendLinkFlags(self, project, flags):
-		self.projects[project].linkflags += flags
+	def BuildAll(self):
+		self.__BuildAllVariants()
 
-	# change project to library project
-	def IsLibrary(self, project):
-		self.projects[project].isLibrary = True
+	def __ResolveDependencies(self, project):
+		env = project.env
 
-	# add an include path to the project
-	def AddIncludePath(self, project, path):
-		self.projects[project].includepaths.append(path)
+		for dep in project.dependencies:
+			env.Append(CPPPATH = ['#/include/' + dep])
+			env.Append(CPPPATH = ['#/include/' + dep + '/device/' + project.device])
 
-	# use this to specify include paths needed to use a library
-	def AddUserIncludePath(self, project, path):
-		self.projects[project].userincludepaths.append(path)
+			env.Append(LIBPATH = ['#/build.' + project.variant + '/' + project.device + '/lib/' + os.path.dirname(dep)])
+			env.Append(LIBS = [dep])
 
-	# add a lib path to the project
-	def AddLibPath(self, project, path):
-		self.projects[project].libpaths.append(path)
+	def BuildProject(self, project):
 
-	# add a lib to the project
-	def AddLib(self, project, lib):
-		self.projects[project].libs.append(lib)
+		env = project.env
 
-	# add a source directory to the project (path relative to SConscript)
-	def AddSrcDir(self, project, path):
-		self.projects[project].srcdirs.append(path)
+		# set the build dir
+		builddir = '#/build.' + project.variant + '/' + project.device + '/obj/' + project.name
+		libdir   = '#/build.' + project.variant + '/' + project.device + '/lib/' + os.path.dirname(project.name)
+		bindir   = '#/build.' + project.variant + '/' + project.device + '/bin/' + os.path.dirname(project.name)
+		env.VariantDir(builddir, '.', duplicate=0)
 
-	# specify a library this project depends on
-	def DependsOn(self, project, device, dependency):
-		dep = device + '/' + dependency
+		# append project configuration
+		project.config.AppendToEnvironment(env)
+		self.__ResolveDependencies(project)
 
-		# add dependency as new project if it is not in the list yet
-		if not dep in self.projects:
-			self.AddProject(dependency)
+		# add sources
+		srclist = list()
+		for directory in project.srcdirs:
+			srclist += map(lambda x: builddir + '/' + x, glob.glob(directory + '/*.cpp'))
+			srclist += map(lambda x: builddir + '/' + x, glob.glob(directory + '/*.c'))
 
-		# dependency must be a library
-		if not self.projects[dep].isLibrary:
-					raise Exception('Dependecies must be libraries!')
+		# Build it!
+		if project.isLibrary:
+			target = builddir + '/lib' + os.path.basename(project.name) + '.a'
+			build = env.StaticLibrary(target, source=srclist)
+			install = env.Install(libdir, build)
+		else:
+			target = builddir + '/' + os.path.basename(project.name) + '.elf'
+			build = env.Program(target, source=srclist)
+			install = env.Install(bindir, build)
 
-		self.projects[project].dependencies.append(dep)
+			# create hex file
+			target = builddir + '/' + os.path.basename(project.name) + '.hex'
+			tmp = env.Command(target, build, 'avr-objcopy -R .eeprom -O ihex $SOURCE $TARGET')
+			env.Install(bindir, tmp)
 
-	# add dependency to simavr
-	def DependsOnSimavr(self, project):
-		self.projects[project].simavr = True
-
-
-	#sets up the build for a given project
-	def BuildProject(self, project, device):
-
-		p = self.projects[project]
-
-		# build only if current device is supported by the project
-		if device in p.devices:
-
-			# create a new local environment to setup the build
-			localenv = self.env.Clone()
-
-			# set build dirs
-			base_builddir = '#/build/' + device
-
-			if localenv['simavr']:
-				objdir        = base_builddir + '/obj/simavr'
-				objbuilddir   = base_builddir + '/obj/simavr/' + p.name
-				libinstalldir = base_builddir + '/lib/simavr'
-				bininstalldir = base_builddir + '/bin/simavr'
-			elif localenv['debug']:
-				objdir        = base_builddir + '/obj'
-				objbuilddir   = base_builddir + '/obj/debug/' + p.name
-				libinstalldir = base_builddir + '/lib/debug'
-				bininstalldir = base_builddir + '/bin/debug'
-			else:
-				objdir        = base_builddir + '/obj'
-				objbuilddir   = base_builddir + '/obj/' + p.name
-				libinstalldir = base_builddir + '/lib'
-				bininstalldir = base_builddir + '/bin'
-
-			# setup the environment
-			localenv.Append(CPPPATH = p.includepaths)
-
-			localenv.Append(CCFLAGS   = ' -mmcu=' + device)
-			localenv.Append(LINKFLAGS = ' -mmcu=' + device)
-
-			localenv.Append(CCFLAGS   = p.ccflags)
-			localenv.Append(CXXFLAGS  = p.cxxflags)
-			localenv.Append(LINKFLAGS = p.linkflags)
-
-			localenv.Append(LIBS      = p.libs)
-			localenv.Append(LIBPATHS  = p.libpaths)
-
-			# add dependencies
-			for dep in p.dependencies:
-				localenv.Append(LIBS    = self.projects[dep].name)
-				localenv.Append(LIBPATH = [objdir + '/' + self.projects[dep].name])
-				localenv.Append(CPPPATH = self.projects[dep].userincludepaths)
-
-			# check if we build simavr or debug version
-			if localenv['simavr']:
-				localenv.Append(CPPDEFINES = ['SIMAVR=1'])
-				localenv.Append(CPPDEFINES = ['DEBUG=1'])
-				# check for simavr
-				localenv.ParseConfig('pkg-config --cflags simavr')
-			elif localenv['simavr']:
-				localenv.Append(CPPDEFINES = ['DEBUG=1'])
-
-			# tell the programs on which MCU they are running
-			localenv.Append(CPPDEFINES = ['MCU=\\\"' + device + '\\\"'])
-
-			#specify the build directory
-			localenv.VariantDir(objbuilddir, ".", duplicate=0)
-
-			# add sources
-			srclst =  map(lambda x: objbuilddir + '/' + x, glob.glob('*.cpp'))
-			srclst += map(lambda x: objbuilddir + '/' + x, glob.glob('*.c'))
-
-			for directory in p.srcdirs:
-				srclst += map(lambda x: objbuilddir + '/' + x, glob.glob(directory + '/*.cpp'))
-				srclst += map(lambda x: objbuilddir + '/' + x, glob.glob(directory + '/*.c'))
-
-			# build it
-			if p.isLibrary:
-				target = objbuilddir + '/lib' + p.basename + '.a'
-				out = localenv.StaticLibrary(target, source=srclst)
-				out = localenv.Install(libinstalldir, out)
-			else:
-				target = objbuilddir + '/' + p.basename + '.elf'
-				out = localenv.Program(target, source=srclst)
-				out = localenv.Install(bininstalldir, out)
-
-				src = target
-				target = objbuilddir + '/' + p.basename + '.hex'
-				tmp = localenv.Command(target, out, 'avr-objcopy -j .text -j .data -O ihex $SOURCE $TARGET')
-				localenv.Install(bininstalldir, tmp)
-
-			# show memory usage
-			if localenv['memusage']:
-				target = objbuilddir + '/' + p.basename + '.size'
-				localenv.Command( target, out, 'avr-size ${SOURCE} | tee ${TARGET}')
+		if env['memusage']:
+			memsize = env.Command(None, build, 'avr-size ${SOURCE}')
+			env.Depends(install, memsize)
