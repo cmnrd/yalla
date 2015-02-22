@@ -52,6 +52,7 @@ class ProjectManager:
 			# set mcu
 			deviceEnv.Append(CPPDEFINES = ['MCU=\\\"' + device + '\\\"'])
 			deviceEnv.Append(CFLAGS = ['-mmcu=' + device])
+			deviceEnv.Append(CXXFLAGS = ['-mmcu=' + device])
 			deviceEnv.Append(LINKFLAGS = ['-mmcu=' + device])
 
 			self.__BuildAllProjects(deviceEnv, variant, device)
@@ -107,7 +108,7 @@ class ProjectManager:
 
 			# create hex file
 			target = builddir + '/' + os.path.basename(project.name) + '.hex'
-			tmp = env.Command(target, build, 'avr-objcopy -R .eeprom -O ihex $SOURCE $TARGET')
+			tmp = env.Command(target, build, 'avr-objcopy -j .text -j .data -O ihex $SOURCE $TARGET')
 			env.Install(bindir, tmp)
 
 			# add a simavr target

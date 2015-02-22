@@ -133,8 +133,9 @@ simConfig = copy.deepcopy(dbgConfig)
 simConfig.cppdefines += ['SIMAVR']
 
 # add simavr to include path
-# simConfig.ccflags += [' `pkg-config --cflags simavr` ']
-simConfig.cpppath += ['/usr/include/simavr']
+simConfig.parse += ['pkg-config --cflags simavr']
+
+simConfig.linkflags += ['-Wl,--undefined=_mmcu,--section-start=.mmcu=0x910000']
 
 variants['sim'] = simConfig
 
