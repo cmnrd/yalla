@@ -1,7 +1,7 @@
 /**
- * @brief  simavr trace settings for iomm test
+ * @brief  C++ simavr wrapper class
  * @author Christian Menard
- * @date   2015-01-21
+ * @date   2015-02-21
  */
 
 /*
@@ -28,22 +28,7 @@
  * SOFTWARE.
  */
 
-#ifdef SIMAVR
+#include <simavr.hpp>
+using namespace yalla;
 
-#include <avr/avr_mcu_section.h>
-#include <avr/io.h>
-#include <simavr.h>
-
-AVR_MCU(F_CPU, MCU);
-
-AVR_MCU_SIMAVR_COMMAND((void*)SIMAVR_COMMAND_REG);
-AVR_MCU_SIMAVR_CONSOLE((void*)SIMAVR_CONSOLE_REG);
-
-const struct avr_mmcu_vcd_trace_t _mytrace[] _MMCU_ =
-{
-	{ AVR_MCU_VCD_SYMBOL("PORTD"), .what = (void*)&PORTD},
-	{ AVR_MCU_VCD_SYMBOL("PORTC"), .what = (void*)&PORTC},
-	{ AVR_MCU_VCD_SYMBOL("PORTB"), .what = (void*)&PORTB},
-};
-
-#endif // SIMAVR
+Simavr::OStreamType Simavr::cout = Simavr::OStreamType();

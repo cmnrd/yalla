@@ -91,7 +91,9 @@ public:
 			ConsoleReg::write(c);
 	}
 
-	static OStream<simavr ? putc : nullptr> cout;
+	using OStreamType = OStream<simavr ? putc : nullptr>;
+
+	static OStreamType cout;
 
 };
 

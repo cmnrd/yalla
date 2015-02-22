@@ -44,7 +44,7 @@ private:
 	char tempStr[tmpStrSize];
 
 public:
-	OStream& put(char c)
+	void put(char c)
 	{
 		if(transmitByte != nullptr)
 		{
@@ -53,60 +53,74 @@ public:
 
 			transmitByte(c);
 		}
-		return *this;
 	}
-	OStream& write( const char str[])
+	void write( const char str[])
 	{
 		if(transmitByte != nullptr)
 		{
 			for(uint8_t i = 0; str[i] != '\0'; i++)
 				put(str[i]);
 		}
-		return *this;
 	}
 
-	OStream& operator<<(char c) { return put(c); }
-	OStream& operator<<(const char str[]) { return write(str); }
+	OStream& operator<<(char c)
+	{
+		put(c);
+		return *this;
+	}
+	OStream& operator<<(const char str[])
+	{
+		write(str);
+		return *this;
+	}
 	OStream& operator<<( uint8_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( utoa(i, tempStr, tmpStrSize));
+			write( utoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 	OStream& operator<<( int8_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( itoa(i, tempStr, tmpStrSize));
+			write( itoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 	OStream& operator<<( uint16_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( utoa(i, tempStr, tmpStrSize));
+			write( utoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 	OStream& operator<<( int16_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( itoa(i, tempStr, tmpStrSize));
+			write( itoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 	OStream& operator<<( uint32_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( utoa(i, tempStr, tmpStrSize));
+			write( utoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 	OStream& operator<<( int32_t i)
 	{
 		if(transmitByte != nullptr)
-			return write( itoa(i, tempStr, tmpStrSize));
+			write( itoa(i, tempStr, tmpStrSize));
+		return *this;
 	}
 
 	OStream& operator<<( float f)
 	{
 		if(transmitByte != nullptr)
-			return write( dtostrf(f,1,6,tempStr));
+			write( dtostrf(f,1,6,tempStr));
+		return *this;
 	}
 	OStream& operator<<( double d)
 	{
 		if(transmitByte != nullptr)
-			return write( dtostrf(d,1,6,tempStr));
+			write( dtostrf(d,1,6,tempStr));
+		return *this;
 	}
 };
 

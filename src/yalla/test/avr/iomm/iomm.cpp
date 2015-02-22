@@ -38,6 +38,8 @@ using MYPORTB = IOMMPtr<uint8_t, 0x38>;
 
 int main()
 {
+	Simavr::startTrace();
+
 	MYPORTB::write(0x00);
 	MYPORTC::write(0x00);
 	MYPORTD::write(0x00);

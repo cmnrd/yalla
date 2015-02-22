@@ -31,14 +31,19 @@
 #ifdef SIMAVR
 
 #include <avr/avr_mcu_section.h>
+#include <avr/io.h>
+#include <simavr.h>
 
-AVR_MCU(8000000, "atmega8");
+AVR_MCU(F_CPU, MCU);
+
+AVR_MCU_SIMAVR_COMMAND((void*)SIMAVR_COMMAND_REG);
+AVR_MCU_SIMAVR_CONSOLE((void*)SIMAVR_CONSOLE_REG);
 
 const struct avr_mmcu_vcd_trace_t _mytrace[] _MMCU_ =
 {
-	{ AVR_MCU_VCD_SYMBOL("PORTC"), .what = (void*)0x35},
-	{ AVR_MCU_VCD_SYMBOL("PORTD"), .what = (void*)0x32},
-	{ AVR_MCU_VCD_SYMBOL("TWCR"),  .what = (void*)0x56},
+	{ AVR_MCU_VCD_SYMBOL("PORTC"), .what = (void*)&PORTC},
+	{ AVR_MCU_VCD_SYMBOL("PORTD"), .what = (void*)&PORTD},
+	{ AVR_MCU_VCD_SYMBOL("TWCR"),  .what = (void*)&TWCR},
 };
 
 #endif // SIMAVR

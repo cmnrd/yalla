@@ -1,4 +1,3 @@
-
 /**
  * @brief  A simple temp
  * @author Christian Menard
