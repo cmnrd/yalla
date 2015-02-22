@@ -174,6 +174,9 @@ SConsEnvironment.pm = ProjectManager(env, projects, devices, variants)
 # export the environment so SConscripts can access it
 Export('env')
 
+# set default target
+Default('build.opt')
+
 ################################################################################
 #
 # Build it!
