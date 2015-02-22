@@ -42,15 +42,18 @@ namespace yalla
  * This class does not implement any functionality but is a base class for all
  * other bit classes.
  *
- * @tparam Reg        IOMMptr pointing to a 8-bit io register
- * @tparam idx        number of the bit with the register (0<=idx<=7)
- * @tparam regAndMask and-mask used to mask out read only bits when writing to
+ * @tparam _Reg       IOMMptr pointing to a 8-bit io register
+ * @tparam _idx        number of the bit with the register (0<=idx<=7)
+ * @tparam _regAndMask and-mask used to mask out read only bits when writing to
  *                    the register
  */
-template<class Reg, uint8_t idx, uint8_t regAndMask>
+template<class _Reg, uint8_t _idx, uint8_t _regAndMask>
 struct ReservedBit
 {
-	///
+	using Reg = _Reg;
+	static constexpr uint8_t idx = _idx;
+	static constexpr uint8_t regAndMask = _regAndMask;
+
 	static constexpr uint8_t bitMask = 1 << idx;
 	static constexpr uint8_t bitAndMask = static_cast<uint8_t>(~bitMask);
 

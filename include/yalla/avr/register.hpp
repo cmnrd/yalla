@@ -45,16 +45,20 @@ namespace yalla
  * In contrast to a Register a DataRegister is represented only by a 8-bit value
  * and is not a set of individual bits.
  *
- * @tparam addr Address of the register.
+ * @tparam _addr Address of the register.
  */
-template<addr_t addr>
-class DataRegister : public IOMMPtr<uint8_t, addr>
+template<addr_t _addr>
+class DataRegister : public IOMMPtr<uint8_t, _addr>
 {
 private:
 	/// Alias for the IOMMPtr
-	using Ptr = IOMMPtr<uint8_t, addr>;
+	using Ptr = IOMMPtr<uint8_t, _addr>;
 
 public:
+
+	/// the register's iomm address
+	static constexpr addr_t addr = _addr;
+
 	/**
 	 * Write a 8-bit integer to the register.
 	 *
@@ -76,16 +80,19 @@ public:
  * In contrast to a Register a DataRegister16 is represented only by a 16-bit value
  * and is not a set of individual bits.
  *
- * @tparam addr Address of the register.
+ * @tparam _addr Address of the register.
  */
-template<addr_t addr>
+template<addr_t _addr>
 class DataRegister16
 {
 private:
 	/// Alias for the IOMMPtr
-	using Ptr = IOMMPtr<uint16_t, addr>;
+	using Ptr = IOMMPtr<uint16_t, _addr>;
 
 public:
+	/// the register's iomm address
+	static constexpr addr_t addr = _addr;
+
 	/**
 	 * Write a 16-bit integer to the register.
 	 *
@@ -140,7 +147,7 @@ public:
 /**
  * Represents a 8-bit io register that is assembled from 8 individual bits.
  *
- * @tparam addr  Address of the register.
+ * @tparam _addr  Address of the register.
  * @tparam _Bit7 Type of the registers 8th bit.
  * @tparam _Bit6 Type of the registers 7th bit.
  * @tparam _Bit5 Type of the registers 6th bit.
@@ -150,7 +157,7 @@ public:
  * @tparam _Bit1 Type of the registers 2nd bit.
  * @tparam _Bit0 Type of the registers 1st bit.
  */
-template<addr_t addr,
+template<addr_t _addr,
          template<class, uint8_t, uint8_t> class _Bit7,
          template<class, uint8_t, uint8_t> class _Bit6,
          template<class, uint8_t, uint8_t> class _Bit5,
@@ -163,9 +170,13 @@ class Register
 {
 private:
 	/// Alias for the IOMMPtr
-	using Ptr = IOMMPtr<uint8_t, addr>;
+	using Ptr = IOMMPtr<uint8_t, _addr>;
 
 public:
+
+	/// the register's iomm address
+	static constexpr addr_t addr = _addr;
+
 	/// And-mask used on write operations to mask out reserved bits.
 	static constexpr uint8_t regAndMask = _Bit7<Ptr, 7, 0>::bitAndMask &
 	                                      _Bit6<Ptr, 6, 0>::bitAndMask &

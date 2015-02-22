@@ -43,17 +43,19 @@ namespace yalla
  * to be disabled to guarantee atomic access.
  *
  * @tparam T       type that is used for read and write access
- * @tparam addr    the address this pointer points to (absolute memory address)
+ * @tparam _addr   the address this pointer points to (absolute memory address)
  */
-template<typename T, addr_t addr>
+template<typename T, addr_t _addr>
 class IOMMPtr
 {
 private:
 	using PtrType = volatile T*;
-	static constexpr PtrType ptr = reinterpret_cast<PtrType>(addr);
+	static constexpr PtrType ptr = reinterpret_cast<PtrType>(_addr);
 public:
 	/// The type used for read and write operations.
 	using Type = T;
+	/// iomm address this pointer point to
+	static constexpr addr_t addr = _addr;
 	/// Read value from addr.
 	static INLINE T    read()     { return *ptr; }
 	/// Write value to addr before write andMask and orMask are applied.
