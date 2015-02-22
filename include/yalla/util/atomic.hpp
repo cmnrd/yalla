@@ -47,7 +47,7 @@ enum class AtomicPolicy
 	/// Force interrupts enabled when AtomicGuard object is destroyed (more efficient then RestoreState)
 	ForceOn,
 	/// Force interrupts disabled when NonAtomicGuard object is destroyed (more efficient then RestoreState)
-	ForceOff
+	ForceOff,
 };
 
 /**
@@ -66,9 +66,9 @@ template<>
 struct AtomicGuard<AtomicPolicy::ForceOn>
 {
 	/// Constructor, disables interrupts on object creation.
-	INLINE AtomicGuard()  { Interrupts::disableGlobally(); }
+	INLINE AtomicGuard()  { Interrupts::disable(); }
 	/// Destructor, enables interrupts on object destruction.
-	INLINE ~AtomicGuard() { Interrupts::enableGlobally(); }
+	INLINE ~AtomicGuard() { Interrupts::enable(); }
 };
 
 template<>
@@ -84,7 +84,7 @@ public:
 	INLINE AtomicGuard()
 	{
 		sreg = SREG::read();
-		Interrupts::disableGlobally();
+		Interrupts::disable();
 	}
 
 	/// Destructor, restores old state on object destruction.
@@ -113,9 +113,9 @@ template<>
 struct NonAtomicGuard<AtomicPolicy::ForceOff>
 {
 	/// Constructor, enables interrupts on object creation.
-	INLINE NonAtomicGuard()  { Interrupts::enableGlobally(); }
+	INLINE NonAtomicGuard()  { Interrupts::enable(); }
 	/// Constructor, disables interrupts on object creation.
-	INLINE ~NonAtomicGuard() { Interrupts::disableGlobally(); }
+	INLINE ~NonAtomicGuard() { Interrupts::disable(); }
 };
 
 template<>
@@ -131,7 +131,7 @@ public:
 	INLINE NonAtomicGuard()
 	{
 		sreg = SREG::read();
-		Interrupts::enableGlobally();
+		Interrupts::enable();
 	}
 
 	/// Destructor, restores old state on object destruction.

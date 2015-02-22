@@ -31,7 +31,7 @@
 #pragma once
 
 #include <attributes.hpp>
-#include <avr/io.hpp>
+#include <avr/iomm.hpp>
 
 namespace yalla
 {
@@ -41,10 +41,10 @@ class Interrupts
 private:
 	using SREG = IOMMPtr<uint8_t, 0x3f>;
 public:
-	static void INLINE enableGlobally()      { asm volatile ("sei"); }
-	static void INLINE disableGlobally()     { asm volatile ("cli"); }
-	static bool INLINE areGloballyEnabled()  { return SREG::read() & (1 << 7); }
-	static bool INLINE areGloballyDisabled() { return !(SREG::read() & (1 << 7)); }
+	static void INLINE enable()      { asm volatile ("sei"); }
+	static void INLINE disable()     { asm volatile ("cli"); }
+	static bool INLINE areEnabled()  { return SREG::read() & (1 << 7); }
+	static bool INLINE areDisabled() { return !(SREG::read() & (1 << 7)); }
 };
 
 } // namespace yalla
