@@ -32,34 +32,32 @@
 #include <simavr.hpp>
 using namespace yalla;
 
-using PORTD = IOMMPtr<uint8_t, 0x32>;
-using PORTC = IOMMPtr<uint8_t, 0x35>;
-using PORTB = IOMMPtr<uint8_t, 0x38>;
+using MYPORTD = IOMMPtr<uint8_t, 0x32>;
+using MYPORTC = IOMMPtr<uint8_t, 0x35>;
+using MYPORTB = IOMMPtr<uint8_t, 0x38>;
 
 int main()
 {
-	Simavr::startTrace();
+	MYPORTB::write(0x00);
+	MYPORTC::write(0x00);
+	MYPORTD::write(0x00);
 
-	PORTB::write(0x00);
-	PORTC::write(0x00);
-	PORTD::write(0x00);
+	MYPORTD::write(0x01);
+	MYPORTD::write(0x20);
 
-	PORTD::write(0x01);
-	PORTD::write(0x20);
+	MYPORTB::write(0);
 
-	PORTB::write(0);
+	MYPORTC::write(0x55);
 
-	PORTC::write(0x55);
+	MYPORTB::write(MYPORTD::read());
 
-	PORTB::write(PORTD::read());
+	MYPORTC::deref() = MYPORTB::deref();
 
-	PORTC::deref() = PORTB::deref();
+	MYPORTB::write(0x00);
+	MYPORTC::write(0x00);
+	MYPORTD::write(0x00);
 
-	PORTB::write(0x00);
-	PORTC::write(0x00);
-	PORTD::write(0x00);
-
-	Simavr::stopTrace();
+	Simavr::stopSimulation();
 
 	while(true);
 

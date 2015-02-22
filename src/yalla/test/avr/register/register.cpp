@@ -34,8 +34,6 @@ using namespace yalla;
 
 int main()
 {
-	Simavr::startTrace();
-
 	PORTC::write(0x00);
 	PORTD::write(0x00);
 	TWCR::write(0x00);
@@ -55,7 +53,7 @@ int main()
 	PORTD::write(0x00);
 	TWCR::write(0x00);
 
-	Simavr::stopTrace();
+	Simavr::stopSimulation();
 
 	while(true);
 

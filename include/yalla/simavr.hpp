@@ -28,6 +28,8 @@
  * SOFTWARE.
  */
 
+#pragma once
+
 #ifdef SIMAVR
 extern "C"
 {
@@ -35,13 +37,19 @@ extern "C"
 }
 #endif
 
+#include <avr/interrupts.hpp>
 #include <avr/iomm.hpp>
+#include <avr/sleep.hpp>
 #include <simavr.h>
-
-#pragma once
 
 namespace yalla
 {
+
+#ifdef SIMAVR
+constexpr bool simavr = true;
+#else
+constexpr bool simavr = false;
+#endif
 
 class Simavr
 {
@@ -53,16 +61,23 @@ public:
 
 	static void startTrace()
 	{
-#ifdef SIMAVR
-		CommandReg::write(SIMAVR_CMD_VCD_START_TRACE);
-#endif
+		if(simavr)
+			CommandReg::write(SIMAVR_CMD_VCD_START_TRACE);
 	}
 
 	static void stopTrace()
 	{
-#ifdef SIMAVR
-		CommandReg::write(SIMAVR_CMD_VCD_STOP_TRACE);
-#endif
+		if(simavr)
+			CommandReg::write(SIMAVR_CMD_VCD_STOP_TRACE);
+	}
+
+	static void stopSimulation()
+	{
+		if(simavr)
+		{
+			Interrupts::disable();
+			sleep_unsafe(SleepMode::Idle);
+		}
 	}
 
 };
