@@ -1,5 +1,5 @@
 /**
- * @brief  A simple temp
+ * @brief  Tools for manipulating bits and bit masks
  * @author Christian Menard
  * @date   2015-01-21
  */
@@ -35,47 +35,20 @@
 namespace yalla
 {
 
-template<typename Reg, typename Bit0, typename...Bits>
-struct __BitMaskHelper
+/**
+ * Generate a bit Mask.
+ *
+ * @tparam T   type that is returned
+ * @param  c   number of bits
+ * @param  idx index (from the right)
+ */
+template<typename T = uint8_t>
+constexpr T bitMask(uint8_t c, uint8_t idx = 0)
 {
-	static_assert(Reg::addr == Bit0::Reg::addr,
-	              "The specified bits do not belong to the same register!");
+	// static_assert(idx < sizeof(T), "Index is too large!");
+	// static_assert(c + idx <= sizeof(T), "Too many bits!");
 
-	static constexpr uint8_t mask =
-		Bit0::bitMask | __BitMaskHelper<Reg, Bits...>::mask;
-};
-
-template<typename Reg, typename Bit0>
-struct __BitMaskHelper<Reg, Bit0>
-{
-	static_assert(Reg::addr == Bit0::Reg::addr,
-	              "The specified bits do not belong to the same register!");
-
-	static constexpr uint8_t mask = Bit0::bitMask;
-};
-
-template<typename...Bits>
-struct BitMask
-{
-};
-
-template<>
-struct BitMask<>
-{
-	static constexpr uint8_t mask = 0;
-};
-
-template<typename Bit0>
-struct BitMask<Bit0>
-{
-	static constexpr uint8_t mask = Bit0::bitMask;
-};
-
-template<typename Bit0, typename...Bits>
-struct BitMask<Bit0, Bits...>
-{
-	static constexpr uint8_t mask =
-		Bit0::bitMask | __BitMaskHelper<typename Bit0::Reg, Bits...>::mask;
-};
+	return ((((T)1) << c) - 1) << idx;
+}
 
 } // namespace yalla

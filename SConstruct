@@ -45,6 +45,7 @@ vars.Add('frequency', 'the target cpu frequency', 8000000)
 projects = []
 
 projects += ['yalla']
+projects += ['yalla/test/avr/bitset']
 projects += ['yalla/test/avr/iomm']
 projects += ['yalla/test/avr/register']
 

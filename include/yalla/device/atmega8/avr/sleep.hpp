@@ -30,19 +30,19 @@
 
 #pragma once
 
+#include <avr/bitset.hpp>
 #include <avr/io.hpp>
-#include <util/bitmask.hpp>
 
 namespace yalla
 {
 
 enum class SleepMode
 {
-	Idle              = 0,
-	ADCNoiseReduction = BitMask<SM0>::mask,
-	PowerDown         = BitMask<SM1>::mask,
-	PowerSave         = BitMask<SM1, SM0>::mask,
-	Standby           = BitMask<SM2, SM1>::mask,
+	Idle              = 0b000,
+	ADCNoiseReduction = 0b001,
+	PowerDown         = 0b010,
+	PowerSave         = 0b011,
+	Standby           = 0b110,
 };
 
 /**
@@ -56,16 +56,10 @@ enum class SleepMode
  */
 void inline sleep(SleepMode mode)
 {
-	uint8_t tmp = MCUCR::read();
+	// TODO remove when implemented in io.hpp
+	using SM = BitSet<MCUCR, 3, SM0::idx>;
 
-	// TODO do SM::write when BitSets are implemented!
-	uint8_t mask = BitMask<SM2, SM1, SM0>::mask;
-
-	tmp &= ~mask;
-
-	tmp |= static_cast<uint8_t>(mode);
-
-	MCUCR::write(tmp);
+	SM::write(static_cast<uint8_t>(mode));
 
 	SE::set();
 
@@ -86,16 +80,10 @@ void inline sleep(SleepMode mode)
  */
 void inline sleep_unsafe(SleepMode mode)
 {
-	uint8_t tmp = MCUCR::read();
+	// TODO remove when implemented in io.hpp
+	using SM = BitSet<MCUCR, 3, SM0::idx>;
 
-	// TODO do SM::write when BitSets are implemented!
-	uint8_t mask = BitMask<SM2, SM1, SM0>::mask;
-
-	tmp &= ~mask;
-
-	tmp |= static_cast<uint8_t>(mode);
-
-	MCUCR::write(tmp);
+	SM::write(static_cast<uint8_t>(mode));
 
 	SE::set();
 
