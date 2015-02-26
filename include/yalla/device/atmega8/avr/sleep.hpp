@@ -56,9 +56,6 @@ enum class SleepMode
  */
 void inline sleep(SleepMode mode)
 {
-	// TODO remove when implemented in io.hpp
-	using SM = BitSet<MCUCR, 3, SM0::idx>;
-
 	SM::write(static_cast<uint8_t>(mode));
 
 	SE::set();
@@ -80,9 +77,6 @@ void inline sleep(SleepMode mode)
  */
 void inline sleep_unsafe(SleepMode mode)
 {
-	// TODO remove when implemented in io.hpp
-	using SM = BitSet<MCUCR, 3, SM0::idx>;
-
 	SM::write(static_cast<uint8_t>(mode));
 
 	SE::set();

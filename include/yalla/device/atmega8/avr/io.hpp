@@ -33,6 +33,7 @@
 #pragma once
 
 #include <avr/bit.hpp>
+#include <avr/bitset.hpp>
 #include <avr/register.hpp>
 
 namespace yalla
@@ -211,6 +212,10 @@ using ISC10 = MCUCR::Bit2;
 using ISC01 = MCUCR::Bit1;
 using ISC00 = MCUCR::Bit0;
 
+using SM    = BitSet<MCUCR, 3, SM0::idx>;
+using ISC1  = BitSet<MCUCR, 2, ISC10::idx>;
+using ISC0  = BitSet<MCUCR, 2, ISC00::idx>;
+
 using MCUCSR = Register<0x54,
                         ReservedBit,        // -
                         ReservedBit,        // -
@@ -248,6 +253,8 @@ using TCCR0 = Register<0x53,
 using CS02 = TCCR0::Bit2;
 using CS01 = TCCR0::Bit1;
 using CS00 = TCCR0::Bit0;
+
+using CS0  = BitSet<TCCR0, 3, CS00::idx>;
 
 using TCNT0 = DataRegister<0x52>;
 
@@ -291,6 +298,9 @@ using FOC1B  = TCCR1A::Bit2;
 using WGM11  = TCCR1A::Bit1;
 using WGM10  = TCCR1A::Bit0;
 
+using COM1A  = BitSet<TCCR1A, 2, COM1A0::idx>;
+using COM1B  = BitSet<TCCR1A, 2, COM1B0::idx>;
+
 using TCCR1B = Register<0x4E,
                         ReadWriteBit,  // ICNC1
                         ReadWriteBit,  // ICES1
@@ -309,6 +319,9 @@ using WGM12 = TCCR1B::Bit3;
 using CS12  = TCCR1B::Bit2;
 using CS11  = TCCR1B::Bit1;
 using CS10  = TCCR1B::Bit0;
+
+using WGM1  = MultiRegBitSet<BitSet<TCCR1B, 2, WGM12::idx>, BitSet<TCCR1A, 2, WGM10::idx>>;
+using CS1   = BitSet<TCCR1B, 3, CS10::idx>;
 
 using TCNT1H = DataRegister<0x4D>;
 using TCNT1L = DataRegister<0x4C>;
@@ -344,6 +357,11 @@ using WGM21 = TCCR2::Bit3;
 using CS22  = TCCR2::Bit2;
 using CS21  = TCCR2::Bit1;
 using CS20  = TCCR2::Bit0;
+
+// TODO this could be done more efficient with a more complex BitSet implementation
+using WGM2  = MultiRegBitSet<BitSet<TCCR2, 1, WGM21::idx>, BitSet<TCCR2, 1, WGM20::idx>>;
+using COM2  = BitSet<TCCR2, 2, COM20::idx>;
+using CS2   = BitSet<TCCR2, 3, CS20::idx>;
 
 using TCNT2 = DataRegister<0x44>;
 
@@ -386,6 +404,8 @@ using WDE  = WDTCR::Bit3;
 using WDP2 = WDTCR::Bit2;
 using WDP1 = WDTCR::Bit1;
 using WDP0 = WDTCR::Bit0;
+
+using WDP  = BitSet<WDTCR, 3, WDP0::idx>;
 
 using UBRRH = Register<0x40,
                        ReservedBit,   // -
@@ -477,6 +497,9 @@ using USBS  = UCSRC::Bit3;
 using UCSZ1 = UCSRC::Bit2;
 using UCSZ0 = UCSRC::Bit1;
 using UCPOL = UCSRC::Bit0;
+
+using UPM   = BitSet<UCSRC, 2, UPM0::idx>;
+using UCSZ  = BitSet<UCSRC, 2, UCSZ0::idx>;
 
 using EEARH = Register<0x3F,
                        ReservedBit,   // -
@@ -811,6 +834,8 @@ using ACIC = ACSR::Bit2;
 using ACIS1 = ACSR::Bit1;
 using ACIS0 = ACSR::Bit0;
 
+using ACIS = BitSet<ACSR, 2, ACIS0::idx>;
+
 using ADMUX = Register<0x27,
                        ReadWriteBit,  // REFS1
                        ReadWriteBit,  // REFS0
@@ -830,6 +855,9 @@ using MUX2  = ADMUX::Bit2;
 using MUX1  = ADMUX::Bit1;
 using MUX0  = ADMUX::Bit0;
 
+using REFS = BitSet<ADMUX, 2, REFS0::idx>;
+using MUX  = BitSet<ADMUX, 4, MUX0::idx>;
+
 using ADCSRA = Register<0x26,
                         ReadWriteBit,  // ADEN
                         ReadWriteBit,  // ADSC
@@ -848,6 +876,8 @@ using ADIE = ADCSRA::Bit3;
 using ADPS2 = ADCSRA::Bit2;
 using ADPS1 = ADCSRA::Bit1;
 using ADPS0 = ADCSRA::Bit0;
+
+using ADPS = BitSet<ADCSRA, 3, ADPS0::idx>;
 
 using ADCH = DataRegister<0x25>;
 using ADCL = DataRegister<0x24>;
@@ -874,12 +904,14 @@ using TWA1  = TWAR::Bit2;
 using TWA0  = TWAR::Bit1;
 using TWGCE = TWAR::Bit0;
 
+using TWA = BitSet<TWAR, 7, TWA0::idx>;
+
 using TWSR = Register<0x21,
-                      ReadWriteBit,  // TWS7
-                      ReadWriteBit,  // TWS6
-                      ReadWriteBit,  // TWS5
-                      ReadWriteBit,  // TWS4
-                      ReadWriteBit,  // TWS3
+                      ReadOnlyBit,  // TWS7
+                      ReadOnlyBit,  // TWS6
+                      ReadOnlyBit,  // TWS5
+                      ReadOnlyBit,  // TWS4
+                      ReadOnlyBit,  // TWS3
                       ReservedBit,   // -
                       ReadWriteBit,  // TWS1
                       ReadWriteBit>; // TWS0
@@ -890,8 +922,27 @@ using TWS5 = TWSR::Bit5;
 using TWS4 = TWSR::Bit4;
 using TWS3 = TWSR::Bit3;
 // RESERVED = TWSR::Bit2;
-using TWS1 = TWSR::Bit1;
-using TWS0 = TWSR::Bit0;
+using TWPS1 = TWSR::Bit1;
+using TWPS0 = TWSR::Bit0;
+
+/*
+ * NOTE In the datasheet TWI status codes are always read as a whole register
+ * with prescaler bits masked out. Therefore the bits should not be shifted to
+ * the right when reading. To achieve this we use another Register definition
+ * instead of a BitSet.
+ */
+
+using TWS = Register<0x21,
+                     ReadOnlyBit,  // TWS7
+                     ReadOnlyBit,  // TWS6
+                     ReadOnlyBit,  // TWS5
+                     ReadOnlyBit,  // TWS4
+                     ReadOnlyBit,  // TWS3
+                     ReservedBit,   // -
+                     ReservedBit,  // TWS1
+                     ReservedBit>; // TWS0
+
+using TWPS = BitSet<TWSR, 2,  TWPS0::idx>;
 
 using TWBR = DataRegister<0x20>;
 
