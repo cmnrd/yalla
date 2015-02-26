@@ -397,33 +397,68 @@ using UBRRH = Register<0x40,
                        ReadWriteBit,  // UBRR9
                        ReadWriteBit>; // UBRR8
 
+// TODO test if access to UBRRH and UCSRC is working corectly
+template<typename Reg, uint8_t idx, uint8_t regAndMask>
+struct UCSRCBit : public ReservedBit<Reg, idx,  regAndMask>
+{
+	static constexpr uint8_t bitAndMask = 0xff;
+
+	using Base = ReservedBit<Reg, idx, regAndMask>;
+
+	static void INLINE set()
+	{
+		// read twice from addr 0x40 to read UCSRC
+		uint8_t tmp = Reg::read();
+		tmp = Reg::read();
+
+		// URSEL bit must be set to write UCSRC
+		Reg::write((1 << 7) | tmp | Base::bitMask);
+	}
+
+	static void INLINE clear()
+	{
+		// read twice from addr 0x40 to read UCSRC
+		Reg::read();
+		uint8_t tmp = Reg::read();
+
+		// URSEL bit must be set to write UCSRC
+		Reg::write((tmp & ~Base::bitMask) | (1<< 7));
+	}
+};
+
 class UCSRC : public Register<0x40,
-                              ReadWriteBit, // URSEL
-                              ReadWriteBit, // UMSEL
-                              ReadWriteBit, // UPM1
-                              ReadWriteBit, // UPM0
-                              ReadWriteBit, // USBS
-                              ReadWriteBit, // UCSZ1
-                              ReadWriteBit, // UCSZ0
-                              ReadWriteBit> // UCPOL
+                              ReservedBit,  // URSEL
+                              UCSRCBit,     // UMSEL
+                              UCSRCBit,     // UPM1
+                              UCSRCBit,     // UPM0
+                              UCSRCBit,     // USBS
+                              UCSRCBit,     // UCSZ1
+                              UCSRCBit,     // UCSZ0
+                              UCSRCBit>     // UCPOL
 {
 private:
 	using Base = Register<0x40,
-                        ReadWriteBit,  // URSEL
-                        ReadWriteBit,  // UMSEL
-                        ReadWriteBit,  // UPM1
-                        ReadWriteBit,  // UPM0
-                        ReadWriteBit,  // USBS
-                        ReadWriteBit,  // UCSZ1
-                        ReadWriteBit,  // UCSZ0
-                        ReadWriteBit>; // UCPOL
+	                      ReservedBit, // URSEL
+	                      UCSRCBit,    // UMSEL
+	                      UCSRCBit,    // UPM1
+	                      UCSRCBit,    // UPM0
+	                      UCSRCBit,    // USBS
+	                      UCSRCBit,    // UCSZ1
+	                      UCSRCBit,    // UCSZ0
+	                      UCSRCBit>;   // UCPOL
 
 	using URSEL = Bit7;
 public:
 	static INLINE void write(uint8_t v)
 	{
 		// URSEL bit must be set to write UCSRC
-		Base::write( URSEL::bitMask | v);
+		Base::write(URSEL::bitMask | v);
+	}
+
+	static void INLINE write_direct(uint8_t v)
+	{
+        // URSEL bit must be set to write UCSRC
+		Base::write_direct(URSEL::bitMask | v);
 	}
 
 	static INLINE uint8_t read()
