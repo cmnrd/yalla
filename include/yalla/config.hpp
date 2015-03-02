@@ -1,7 +1,7 @@
 /**
- * @brief  Methods for access to the global interrupt enable bit
+ * @brief  Yalla Configuration
  * @author Christian Menard
- * @date   2015-01-25
+ * @date   2015-03-01
  */
 
 /*
@@ -30,23 +30,19 @@
 
 #pragma once
 
-#include <attributes.hpp>
-#include <avr/iomm.hpp>
+#ifdef YALLA_USER_CONFIG
+#include YALLA_USER_CONFIG
+#else
+
+#include <defaultconfig.hpp>
 
 namespace yalla
 {
 
-class Interrupts
+struct Config : public DefaultConfig
 {
-private:
-	// ATTENTION this may not work for some architectures
-	using SREG = IOMMPtr<uint8_t, 0x3f>;
-public:
-	static void INLINE enable()      { asm volatile ("sei"); }
-	static void INLINE disable()     { asm volatile ("cli"); }
-	static bool INLINE areEnabled()  { return SREG::read() & (1 << 7); }
-	static bool INLINE areDisabled() { return !(SREG::read() & (1 << 7)); }
 };
 
-} // namespace yalla
+} // namsepace yalla
 
+# endif // YALLA_USER_CONFIG
