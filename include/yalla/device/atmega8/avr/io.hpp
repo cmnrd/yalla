@@ -140,14 +140,14 @@ using TOIE1  = TIMSK::Bit2;
 using TOIE0  = TIMSK::Bit0;
 
 using TIFR = Register<0x58,
-                      ReadWriteBit,  // OCF2
-                      ReadWriteBit,  // TOV2
-                      ReadWriteBit,  // ICF1
-                      ReadWriteBit,  // OCF1A
-                      ReadWriteBit,  // OCF1B
-                      ReadWriteBit,  // TOV1
-                      ReservedBit,   // -
-                      ReadWriteBit>; // TOV0
+                      StatusBitClearBy1,  // OCF2
+                      StatusBitClearBy1,  // TOV2
+                      StatusBitClearBy1,  // ICF1
+                      StatusBitClearBy1,  // OCF1A
+                      StatusBitClearBy1,  // OCF1B
+                      StatusBitClearBy1,  // TOV1
+                      ReservedBit,        // -
+                      StatusBitClearBy1>; // TOV0
 
 using OCF2  = TIFR::Bit7;
 using TOV2  = TIFR::Bit6;
