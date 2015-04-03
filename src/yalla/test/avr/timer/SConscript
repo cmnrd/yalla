@@ -1,0 +1,7 @@
+# get environment and project
+Import('env', 'project')
+
+project.dependencies += ['yalla']
+
+# call back to project manager to build the project for us
+env.pm.BuildProject(project)
